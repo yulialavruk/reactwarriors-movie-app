@@ -12,7 +12,7 @@ export default class MovieList extends Component {
   }
 
   componentDidMount() {
-    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU`;
+    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}`;
     fetch(link)
       .then(response => {
         return response.json();
@@ -26,7 +26,7 @@ export default class MovieList extends Component {
 
   render() {
     const { movies } = this.state;
-    console.log(movies);
+    console.log("filters", this.props.filters.sort_by);
     return (
       <div className="row">
         {movies.map(movie => {

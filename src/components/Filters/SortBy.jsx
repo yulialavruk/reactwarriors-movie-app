@@ -26,8 +26,8 @@ export default class SortBy extends React.Component{
 			}
 		]
 	};
-
 	render(){
+		const bla;
 		const {sort_by, onChangeFilter, options} = this.props;
 		return(
 			<div className="form-group">

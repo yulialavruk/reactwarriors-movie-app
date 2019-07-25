@@ -1,25 +1,15 @@
 import React from "react";
+import SortBy from "./SortBy";
 
 export default class Filters extends React.Component {
   render() {
     const {filters: {sort_by}, onChangeFilter, page, onChangePage} = this.props;
     return (
       <form className="mb-3">
-        <div className="form-group">
-          <label htmlFor="sort_by">Сортировать по:</label>
-          <select 
-            className="form-control" 
-            id="sort_by"
-            name="sort_by"
-            value={sort_by}
-            onChange={onChangeFilter}
-          >
-            <option value="popularity.desc">Популярные по убыванию</option>
-            <option value="popularity.asc">Популярные по возростанию</option>
-            <option value="vote_average.desc">Рейтинг по убыванию</option>
-            <option value="vote_average.asc">Рейтинг по возростанию</option>
-          </select>
-        </div>
+        <SortBy 
+          onChangeFilter={onChangeFilter}
+          sort_by={sort_by}
+        />
         <div className="btn-group">
           <button 
             type="button" 

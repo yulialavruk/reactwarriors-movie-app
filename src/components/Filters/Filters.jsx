@@ -4,9 +4,18 @@ import ReleaseYear from "./ReleaseYear";
 
 export default class Filters extends React.Component {
   render() {
-    const {filters: {sort_by, primary_release_year}, onChangeFilter, page, onChangePage} = this.props;
+    const {filters: {sort_by, primary_release_year}, onChangeFilter, page, onChangePage, onReset} = this.props;
     return (
       <form className="mb-3">
+        <div>
+          <button
+            type="button" 
+            className="btn btn-light"
+            onClick={onReset}
+          >
+            Очистить фильтры
+          </button>
+        </div>
         <SortBy 
           onChangeFilter={onChangeFilter}
           sort_by={sort_by}

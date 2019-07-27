@@ -1,10 +1,34 @@
 import React from "react";
 import SortBy from "./SortBy";
 import ReleaseYear from "./ReleaseYear";
+import { API_URL, API_KEY_3 } from "../../api/api";
+import Genres from "./Genres";
 
 export default class Filters extends React.Component {
+  constructor(){
+    super();
+
+    this.state = {
+      genres: []
+    };
+  };
+
+  componentDidMount() {
+    const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
+    fetch(link)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({
+          genres: data.genres
+        });
+      });
+  };
+
   render() {
-    const {filters: {sort_by, primary_release_year}, onChangeFilter, page, onChangePage, onReset} = this.props;
+    const {genres} = this.state;
+    const {filters: {sort_by, primary_release_year, with_genres}, onChangeFilter, page, onChangePage, onReset} = this.props;
     return (
       <form className="mb-3">
         <div>
@@ -41,6 +65,11 @@ export default class Filters extends React.Component {
             Вперед
           </button>
         </div>
+          <Genres 
+            genres = {genres}
+            onChangeFilter = {onChangeFilter}
+            with_genres={with_genres} 
+          />
       </form>
     );
   }

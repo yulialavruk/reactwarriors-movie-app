@@ -9,7 +9,8 @@ export default class App extends React.Component {
     this.initialState = {
       filters: {
         sort_by: "vote_average.desc",
-        primary_release_year: ""
+        primary_release_year: "",
+        with_genres: []
       },
       page: 1
     };
@@ -34,7 +35,7 @@ export default class App extends React.Component {
   };
 
   onReset = event =>{
-    this.setState(this.initialState);
+    this.setState({...this.initialState});
   };
 
   render() {

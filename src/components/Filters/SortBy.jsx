@@ -26,7 +26,6 @@ export default class SortBy extends React.Component{
 			}
 		]
 	};
-
 	render(){
 		const {sort_by, onChangeFilter, options} = this.props;
 		return(

@@ -6,13 +6,16 @@ export default class App extends React.Component {
   constructor(){
     super();
 
-    this.state = {
+    this.initialState = {
       filters: {
-        sort_by: "vote_average.desc"
+        sort_by: "vote_average.desc",
+        primary_release_year: "",
+        with_genres: []
       },
       page: 1
     };
-  }
+    this.state = {...this.initialState};
+  };
 
   onChangeFilter = event =>{
     const name = event.target.name,
@@ -31,6 +34,10 @@ export default class App extends React.Component {
     })
   };
 
+  onReset = event =>{
+    this.setState({...this.initialState});
+  };
+
   render() {
     const {filters, page} = this.state;
     return (
@@ -45,6 +52,7 @@ export default class App extends React.Component {
                   page={page}
                   onChangeFilter={this.onChangeFilter}
                   onChangePage={this.onChangePage}
+                  onReset={this.onReset}
                 />
               </div>
             </div>

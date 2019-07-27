@@ -37,7 +37,7 @@ onChangeGenres = event =>{
 	                type="checkbox"
 	                id={genre.id}
 	                name="with_genres"
-	                checked={with_genres.find(element=>(element === genre.id))}
+	                checked={with_genres.find(element=>(Number(element) === Number(genre.id)))}
 	                value={genre.id}
 	                onChange={this.onChangeGenres}
 	              />

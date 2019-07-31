@@ -1,5 +1,6 @@
 import React from "react";
 import { API_URL, API_KEY_3 } from "../../api/api";
+import PropTypes from "prop-types";
 
 export default class Genres extends React.Component{
   constructor(){
@@ -8,6 +9,10 @@ export default class Genres extends React.Component{
     this.state = {
       genres: []
     };
+  };
+  static propTypes = {
+    with_genres: PropTypes.array.isRequired,
+    onChangeFilter: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -39,22 +44,25 @@ export default class Genres extends React.Component{
     const {genres} = this.state;
 		const {with_genres} = this.props;
 		return(
-			genres.map(genre=>(
-        <div className="form-check" key={genre.id}>
-          <input 
-            className="form-check-input" 
-            type="checkbox"
-            id={`genre-${genre.id}`}
-            name="with_genres"
-            checked={with_genres.includes(String(genre.id))}
-            value={genre.id}
-            onChange={this.onChangeGenres}
-          />
-          <label className="form-check-label" htmlFor={`genre-${genre.id}`}>
-            {genre.name}
-          </label>
-        </div>
-      ))
+      <div>
+        <div>Выберите жанр:</div>
+  			{genres.map(genre=>(
+          <div className="form-check" key={genre.id}>
+            <input 
+              className="form-check-input" 
+              type="checkbox"
+              id={`genre-${genre.id}`}
+              name="with_genres"
+              checked={with_genres.includes(String(genre.id))}
+              value={genre.id}
+              onChange={this.onChangeGenres}
+            />
+            <label className="form-check-label" htmlFor={`genre-${genre.id}`}>
+              {genre.name}
+            </label>
+          </div>
+        ))}
+      </div>
 		)
 	}
 }

@@ -14,7 +14,7 @@ export default class App extends React.Component {
       },
       pagination: {
         page: 1,
-        total_pages: null
+        total_pages: 1
       }
     };
     this.state = {...this.initialState};
@@ -31,20 +31,12 @@ export default class App extends React.Component {
     }))
   };
 
-  onChangePage = page =>{
+  onChangePage = (page, total_pages) =>{
     this.setState(prevState=>({
       pagination: {
         ...prevState.pagination,
-      page
-      }
-    }))
-  };
-
-  onChangeTotalPages = total_pages =>{
-    this.setState(prevState=>({
-      pagination: {
-        ...prevState.pagination,
-      total_pages
+        page,
+        total_pages
       }
     }))
   };
@@ -59,7 +51,7 @@ export default class App extends React.Component {
       <div className="container">
         <div className="row mt-4">
           <div className="col-4">
-            <div className="card" style={{ width: "100%" }}>
+            <div className="card">
               <div className="card-body">
                 <h3>Фильтры:</h3>
                 <Filters 
@@ -77,7 +69,6 @@ export default class App extends React.Component {
               filters={filters}
               pagination={pagination}
               onChangePage={this.onChangePage}
-              onChangeTotalPages={this.onChangeTotalPages}
             />
           </div>
         </div>

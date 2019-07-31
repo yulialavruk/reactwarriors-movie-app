@@ -12,14 +12,17 @@ export default class App extends React.Component {
         primary_release_year: "",
         with_genres: []
       },
-      page: 1
+      pagination: {
+        page: 1,
+        total_pages: null
+      }
     };
     this.state = {...this.initialState};
   };
 
   onChangeFilter = event =>{
-    const name = event.target.name,
-          value = event.target.value;
+    const name = event.target.name;
+    const value = event.target.value;
     this.setState(prevState =>({
       filters:{
         ...prevState.filters,
@@ -29,9 +32,21 @@ export default class App extends React.Component {
   };
 
   onChangePage = page =>{
-    this.setState({
+    this.setState(prevState=>({
+      pagination: {
+        ...prevState.pagination,
       page
-    })
+      }
+    }))
+  };
+
+  onChangeTotalPages = total_pages =>{
+    this.setState(prevState=>({
+      pagination: {
+        ...prevState.pagination,
+      total_pages
+      }
+    }))
   };
 
   onReset = event =>{
@@ -39,7 +54,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    const {filters, page} = this.state;
+    const {filters, pagination} = this.state;
     return (
       <div className="container">
         <div className="row mt-4">
@@ -49,7 +64,7 @@ export default class App extends React.Component {
                 <h3>Фильтры:</h3>
                 <Filters 
                   filters={filters} 
-                  page={page}
+                  pagination={pagination}
                   onChangeFilter={this.onChangeFilter}
                   onChangePage={this.onChangePage}
                   onReset={this.onReset}
@@ -60,8 +75,9 @@ export default class App extends React.Component {
           <div className="col-8">
             <MoviesList 
               filters={filters}
-              page={page}
+              pagination={pagination}
               onChangePage={this.onChangePage}
+              onChangeTotalPages={this.onChangeTotalPages}
             />
           </div>
         </div>

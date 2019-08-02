@@ -1,6 +1,7 @@
 import React from "react";
 import Filters from "./Filters/Filters";
 import MoviesList from "./Movies/MoviesList";
+import Header from "./Header/Header";
 
 export default class App extends React.Component {
   constructor() {
@@ -51,28 +52,31 @@ export default class App extends React.Component {
   render() {
     const { filters, pagination } = this.state;
     return (
-      <div className="container">
-        <div className="row mt-4">
-          <div className="col-4">
-            <div className="card">
-              <div className="card-body">
-                <h3>Фильтры:</h3>
-                <Filters
-                  filters={filters}
-                  pagination={pagination}
-                  onChangeFilter={this.onChangeFilter}
-                  onChangePagination={this.onChangePagination}
-                  onReset={this.onReset}
-                />
+      <div>
+        <Header />
+        <div className="container">
+          <div className="row mt-4">
+            <div className="col-4">
+              <div className="card">
+                <div className="card-body">
+                  <h3>Фильтры:</h3>
+                  <Filters
+                    filters={filters}
+                    pagination={pagination}
+                    onChangeFilter={this.onChangeFilter}
+                    onChangePagination={this.onChangePagination}
+                    onReset={this.onReset}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-8">
-            <MoviesList
-              filters={filters}
-              pagination={pagination}
-              onChangePagination={this.onChangePagination}
-            />
+            <div className="col-8">
+              <MoviesList
+                filters={filters}
+                pagination={pagination}
+                onChangePagination={this.onChangePagination}
+              />
+            </div>
           </div>
         </div>
       </div>

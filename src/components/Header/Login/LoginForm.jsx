@@ -20,6 +20,7 @@ export default class LoginForm extends React.Component {
       [name]: value,
       errors: {
         ...prevState.errors,
+        base: null,
         [name]: null
       }
     }));
@@ -104,7 +105,12 @@ export default class LoginForm extends React.Component {
         );
       })
       .then(data => {
-        console.log("success", data);
+        return fetchApi(
+          `${API_URL}/account?api_key=${API_KEY_3}&session_id=${data.session_id}`
+        );
+      })
+      .then(user => {
+        this.props.updateUser(user);
         this.setState({
           submitting: false
         });

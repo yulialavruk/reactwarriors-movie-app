@@ -8,6 +8,7 @@ export default class App extends React.Component {
     super();
 
     this.initialState = {
+      user: null,
       filters: {
         sort_by: "vote_average.desc",
         primary_release_year: "",
@@ -20,6 +21,12 @@ export default class App extends React.Component {
     };
     this.state = { ...this.initialState };
   }
+
+  updateUser = user => {
+    this.setState({
+      user
+    });
+  };
 
   onChangeFilter = event => {
     const name = event.target.name;
@@ -53,7 +60,7 @@ export default class App extends React.Component {
     const { filters, pagination } = this.state;
     return (
       <div>
-        <Header />
+        <Header updateUser={this.updateUser} />
         <div className="container">
           <div className="row mt-4">
             <div className="col-4">

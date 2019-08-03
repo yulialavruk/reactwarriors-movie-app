@@ -9,6 +9,7 @@ export default class App extends React.Component {
 
     this.initialState = {
       user: null,
+      session_id: null,
       filters: {
         sort_by: "vote_average.desc",
         primary_release_year: "",
@@ -25,6 +26,12 @@ export default class App extends React.Component {
   updateUser = user => {
     this.setState({
       user
+    });
+  };
+
+  updateSessionId = session_id => {
+    this.setState({
+      session_id
     });
   };
 
@@ -57,10 +64,14 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { filters, pagination } = this.state;
+    const { filters, pagination, user } = this.state;
     return (
       <div>
-        <Header updateUser={this.updateUser} />
+        <Header
+          updateUser={this.updateUser}
+          user={user}
+          updateSessionId={this.updateSessionId}
+        />
         <div className="container">
           <div className="row mt-4">
             <div className="col-4">

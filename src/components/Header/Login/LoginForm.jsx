@@ -1,13 +1,18 @@
 import React from "react";
 import { API_URL, API_KEY_3, fetchApi } from "../../../api/api";
+import validateFields from "./validate";
+import Field from "./Field";
 
 export default class LoginForm extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      username: "",
-      password: "",
+      values: {
+        username: "",
+        password: "",
+        repeatPassword: ""
+      },
       errors: {},
       submitting: false
     };
@@ -17,7 +22,10 @@ export default class LoginForm extends React.Component {
     const name = e.target.name;
     const value = e.target.value;
     this.setState(prevState => ({
-      [name]: value,
+      values: {
+        ...prevState.values,
+        [name]: value
+      },
       errors: {
         ...prevState.errors,
         base: null,
@@ -27,7 +35,7 @@ export default class LoginForm extends React.Component {
   };
 
   handleBlur = () => {
-    const errors = this.validateFields();
+    const errors = validateFields(this.state.values);
     if (Object.keys(errors).length > 0) {
       this.setState(prevState => ({
         errors: {
@@ -36,15 +44,6 @@ export default class LoginForm extends React.Component {
         }
       }));
     }
-  };
-
-  validateFields = () => {
-    const errors = {};
-
-    if (this.state.username === "") {
-      errors.username = "Not empty";
-    }
-    return errors;
   };
 
   onSubmit = () => {
@@ -62,8 +61,8 @@ export default class LoginForm extends React.Component {
               "Content-type": "application/json"
             },
             body: JSON.stringify({
-              username: this.state.username,
-              password: this.state.password,
+              username: this.state.values.username,
+              password: this.state.values.password,
               request_token: data.request_token
             })
           }
@@ -109,7 +108,7 @@ export default class LoginForm extends React.Component {
 
   onLogin = e => {
     e.preventDefault();
-    const errors = this.validateFields();
+    const errors = validateFields(this.state.values);
     if (Object.keys(errors).length > 0) {
       this.setState(prevState => ({
         errors: {
@@ -123,44 +122,50 @@ export default class LoginForm extends React.Component {
   };
 
   render() {
-    const { username, password, errors, submitting } = this.state;
+    const {
+      values: { username, password, repeatPassword },
+      errors,
+      submitting
+    } = this.state;
     return (
       <div className="form-login-container">
         <form className="form-login">
           <h1 className="h3 mb-3 font-weight-normal text-center">
             Авторизация
           </h1>
-          <div className="form-group">
-            <label htmlFor="username">Пользователь</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="Пользователь"
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              onBlur={this.handleBlur}
-            />
-            {errors.username && (
-              <div className="invalid-feedback">{errors.username}</div>
-            )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Пароль</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Пароль"
-              name="password"
-              value={password}
-              onChange={this.onChange}
-            />
-            {errors.password && (
-              <div className="invalid-feedback">{errors.password}</div>
-            )}
-          </div>
+          <Field
+            id="username"
+            labelText="Пользователь"
+            type="text"
+            placeholder="Пользователь"
+            name="username"
+            value={username}
+            onChange={this.onChange}
+            handleBlur={this.handleBlur}
+            error={errors.username}
+          />
+          <Field
+            id="password"
+            labelText="Пароль"
+            type="password"
+            placeholder="Пароль"
+            name="password"
+            value={password}
+            onChange={this.onChange}
+            handleBlur={this.handleBlur}
+            error={errors.password}
+          />
+          <Field
+            id="repeatPassword"
+            labelText="Повторите пароль"
+            type="password"
+            placeholder="Повторите пароль"
+            name="repeatPassword"
+            value={repeatPassword}
+            onChange={this.onChange}
+            handleBlur={this.handleBlur}
+            error={errors.repeatPassword}
+          />
           <button
             type="submit"
             className="btn btn-lg btn-primary btn-block"

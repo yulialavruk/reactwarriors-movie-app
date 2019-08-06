@@ -34,16 +34,18 @@ export default class LoginForm extends React.Component {
     }));
   };
 
-  handleBlur = () => {
+  handleBlur = event => {
+    const name = event.target.name;
     const errors = validateFields(this.state.values);
     if (Object.keys(errors).length > 0) {
       this.setState(prevState => ({
         errors: {
           ...prevState.errors,
-          ...errors
+          [name]: errors[name]
         }
       }));
     }
+    console.log("on blur");
   };
 
   onSubmit = () => {
@@ -90,10 +92,14 @@ export default class LoginForm extends React.Component {
         );
       })
       .then(user => {
-        this.props.updateUser(user);
-        this.setState({
-          submitting: false
-        });
+        this.setState(
+          {
+            submitting: false
+          },
+          () => {
+            this.props.updateUser(user);
+          }
+        );
       })
       .catch(error => {
         console.log("error", error);

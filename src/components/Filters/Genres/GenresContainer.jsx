@@ -1,8 +1,9 @@
 import React from "react";
-import { API_URL, API_KEY_3 } from "../../api/api";
+import { API_URL, API_KEY_3 } from "../../../api/api";
 import PropTypes from "prop-types";
+import Genres from "./Genres";
 
-export default class Genres extends React.PureComponent {
+export default class GenresContainer extends React.PureComponent {
   constructor() {
     super();
 
@@ -46,25 +47,11 @@ export default class Genres extends React.PureComponent {
     const { genres } = this.state;
     const { with_genres } = this.props;
     return (
-      <div>
-        <div>Выберите жанр:</div>
-        {genres.map(genre => (
-          <div className="form-check" key={genre.id}>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id={`genre-${genre.id}`}
-              name="with_genres"
-              checked={with_genres.includes(String(genre.id))}
-              value={genre.id}
-              onChange={this.onChangeGenres}
-            />
-            <label className="form-check-label" htmlFor={`genre-${genre.id}`}>
-              {genre.name}
-            </label>
-          </div>
-        ))}
-      </div>
+      <Genres
+        genres={genres}
+        with_genres={with_genres}
+        onChangeGenres={this.onChangeGenres}
+      />
     );
   }
 }

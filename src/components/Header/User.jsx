@@ -21,7 +21,6 @@ const UserContainer = props => {
   return (
     <AppContext.Consumer>
       {context => {
-        console.log(context);
         return <User user={context.user} {...props} />;
       }}
     </AppContext.Consumer>

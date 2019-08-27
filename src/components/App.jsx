@@ -45,6 +45,14 @@ export default class App extends React.Component {
     });
   };
 
+  onLogOut = () => {
+    cookies.remove("session_id");
+    this.setState({
+      session_id: null,
+      user: null
+    });
+  };
+
   onChangeFilter = event => {
     const name = event.target.name;
     const value = event.target.value;
@@ -80,18 +88,21 @@ export default class App extends React.Component {
         `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`
       ).then(user => {
         this.updateUser(user);
+        this.updateSessionId(session_id);
       });
     }
   }
 
   render() {
-    const { filters, pagination, user } = this.state;
+    const { filters, pagination, user, session_id } = this.state;
     return (
       <AppContext.Provider
         value={{
-          user: user,
+          user,
+          session_id,
           updateUser: this.updateUser,
-          updateSessionId: this.updateSessionId
+          updateSessionId: this.updateSessionId,
+          onLogOut: this.onLogOut
         }}
       >
         <div>

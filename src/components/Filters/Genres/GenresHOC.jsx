@@ -1,5 +1,5 @@
 import React from "react";
-import { API_URL, API_KEY_3 } from "../../../api/api";
+import CallApi from "../../../api/api";
 import PropTypes from "prop-types";
 
 export default Component =>
@@ -17,16 +17,15 @@ export default Component =>
     };
 
     componentDidMount() {
-      const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
-      fetch(link)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          this.setState({
-            genres: data.genres
-          });
+      CallApi.get("/genre/movie/list", {
+        params: {
+          language: "ru-RU"
+        }
+      }).then(data => {
+        this.setState({
+          genres: data.genres
         });
+      });
     }
 
     onChangeGenres = event => {

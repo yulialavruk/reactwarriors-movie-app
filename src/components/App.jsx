@@ -24,7 +24,8 @@ export default class App extends React.Component {
       pagination: {
         page: 1,
         total_pages: 1
-      }
+      },
+      favorite_movies: []
     };
     this.state = { ...this.initialState };
   }
@@ -81,6 +82,21 @@ export default class App extends React.Component {
     this.setState({ ...this.initialState });
   };
 
+  getFavoriteList = () => {
+    CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+      params: {
+        session_id: this.state.session_id,
+        language: "ru-RU",
+        sort_by: this.state.filters.sort_by,
+        page: this.state.pagination.page
+      }
+    }).then(data => {
+      this.setState({
+        favorite_movies: data.results
+      });
+    });
+  };
+
   componentDidMount() {
     const session_id = cookies.get("session_id");
     if (session_id) {
@@ -88,15 +104,32 @@ export default class App extends React.Component {
         params: {
           session_id
         }
-      }).then(user => {
-        this.updateUser(user);
-        this.updateSessionId(session_id);
-      });
+      })
+        .then(user => {
+          this.updateUser(user);
+          this.updateSessionId(session_id);
+        })
+        .then(() => {
+          return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+            params: {
+              session_id: this.state.session_id,
+              language: "ru-RU",
+              sort_by: this.state.filters.sort_by,
+              page: this.state.pagination.page
+            }
+          });
+        })
+        .then(data => {
+          this.setState({
+            favorite_movies: data.results
+          });
+        });
     }
   }
 
   render() {
     const { filters, pagination, user, session_id } = this.state;
+    //console.log(this.state.favorite_list);
     return (
       <AppContext.Provider
         value={{
@@ -104,7 +137,9 @@ export default class App extends React.Component {
           session_id,
           updateUser: this.updateUser,
           updateSessionId: this.updateSessionId,
-          onLogOut: this.onLogOut
+          onLogOut: this.onLogOut,
+          favorite_movies: this.state.favorite_movies,
+          getFavoriteList: this.getFavoriteList
         }}
       >
         <div>
@@ -127,6 +162,9 @@ export default class App extends React.Component {
               </div>
               <div className="col-8">
                 <MoviesList
+                  favorite_movies={this.state.favorite_movies}
+                  user={user}
+                  session_id={session_id}
                   filters={filters}
                   pagination={pagination}
                   onChangePagination={this.onChangePagination}

@@ -25,7 +25,8 @@ export default class App extends React.Component {
         page: 1,
         total_pages: 1
       },
-      favorite_movies: []
+      favorite_movies: [],
+      watchlist: []
     };
     this.state = { ...this.initialState };
   }
@@ -97,6 +98,21 @@ export default class App extends React.Component {
     });
   };
 
+  getWatchList = () => {
+    CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+      params: {
+        session_id: this.state.session_id,
+        language: "ru-RU",
+        sort_by: this.state.filters.sort_by,
+        page: this.state.pagination.page
+      }
+    }).then(data => {
+      this.setState({
+        watchlist: data.results
+      });
+    });
+  };
+
   componentDidMount() {
     const session_id = cookies.get("session_id");
     if (session_id) {
@@ -123,12 +139,30 @@ export default class App extends React.Component {
           this.setState({
             favorite_movies: data.results
           });
+        })
+        .then(() => {
+          return CallApi.get(
+            `/account/${this.state.user.id}/watchlist/movies`,
+            {
+              params: {
+                session_id: this.state.session_id,
+                language: "ru-RU",
+                sort_by: this.state.filters.sort_by,
+                page: this.state.pagination.page
+              }
+            }
+          );
+        })
+        .then(data => {
+          this.setState({
+            watchlist: data.results
+          });
         });
     }
   }
 
   render() {
-    const { filters, pagination, user, session_id } = this.state;
+    const { filters, pagination, user, session_id, watchlist } = this.state;
     //console.log(this.state.favorite_list);
     return (
       <AppContext.Provider
@@ -139,7 +173,9 @@ export default class App extends React.Component {
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut,
           favorite_movies: this.state.favorite_movies,
-          getFavoriteList: this.getFavoriteList
+          getFavoriteList: this.getFavoriteList,
+          watchlist,
+          getWatchList: this.getWatchList
         }}
       >
         <div>

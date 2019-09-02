@@ -4,6 +4,7 @@ import WillWatch from "./WillWatch";
 
 class MovieItem extends React.Component {
   render() {
+    //console.log("rend");
     const { item } = this.props;
     return (
       <div className="card" style={{ width: "100%" }}>

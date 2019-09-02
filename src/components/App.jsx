@@ -16,6 +16,7 @@ export default class App extends React.Component {
     this.initialState = {
       user: null,
       session_id: null,
+      showLoginModal: false,
       filters: {
         sort_by: "vote_average.desc",
         primary_release_year: "",
@@ -47,11 +48,20 @@ export default class App extends React.Component {
     });
   };
 
+  toggleLoginModal = () => {
+    this.setState(prevState => ({
+      showLoginModal: !prevState.showLoginModal
+    }));
+  };
+
   onLogOut = () => {
     cookies.remove("session_id");
     this.setState({
       session_id: null,
-      user: null
+      user: null,
+      showLoginModal: false,
+      favorite_movies: [],
+      watchlist: []
     });
   };
 
@@ -162,7 +172,15 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { filters, pagination, user, session_id, watchlist } = this.state;
+    const {
+      filters,
+      pagination,
+      user,
+      session_id,
+      watchlist,
+      showLoginModal,
+      favorite_movies
+    } = this.state;
     //console.log(this.state.favorite_list);
     return (
       <AppContext.Provider
@@ -172,10 +190,12 @@ export default class App extends React.Component {
           updateUser: this.updateUser,
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut,
-          favorite_movies: this.state.favorite_movies,
+          favorite_movies,
           getFavoriteList: this.getFavoriteList,
           watchlist,
-          getWatchList: this.getWatchList
+          getWatchList: this.getWatchList,
+          showLoginModal,
+          toggleLoginModal: this.toggleLoginModal
         }}
       >
         <div>
@@ -198,9 +218,6 @@ export default class App extends React.Component {
               </div>
               <div className="col-8">
                 <MoviesList
-                  favorite_movies={this.state.favorite_movies}
-                  user={user}
-                  session_id={session_id}
                   filters={filters}
                   pagination={pagination}
                   onChangePagination={this.onChangePagination}

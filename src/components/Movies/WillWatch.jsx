@@ -14,21 +14,29 @@ class WillWatch extends React.Component {
   }
 
   addToWatchList = () => {
-    CallApi.post(`/account/${this.props.user.id}/watchlist`, {
-      params: {
-        session_id: this.props.session_id
-      },
-      body: {
-        media_type: "movie",
-        media_id: this.props.itemId,
-        watchlist: this.state.isWillWatch ? false : true
-      }
-    }).then(() => {
-      this.setState(prevState => ({
-        isWillWatch: !prevState.isWillWatch
-      }));
-      this.props.getWatchList();
-    });
+    if (this.props.session_id) {
+      CallApi.post(`/account/${this.props.user.id}/watchlist`, {
+        params: {
+          session_id: this.props.session_id
+        },
+        body: {
+          media_type: "movie",
+          media_id: this.props.itemId,
+          watchlist: this.state.isWillWatch ? false : true
+        }
+      }).then(() => {
+        this.setState(
+          prevState => ({
+            isWillWatch: !prevState.isWillWatch
+          }),
+          () => {
+            this.props.getWatchList();
+          }
+        );
+      });
+    } else {
+      this.props.toggleLoginModal();
+    }
   };
 
   componentDidMount() {
@@ -58,7 +66,6 @@ class WillWatch extends React.Component {
   }
 
   render() {
-    console.log(this.props.watchlist);
     return (
       <div className="d-inline-flex" onClick={this.addToWatchList}>
         {this.state.isWillWatch ? <Bookmark /> : <BookmarkBorder />}

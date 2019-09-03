@@ -4,71 +4,89 @@ import { Bookmark, BookmarkBorder } from "@material-ui/icons";
 import AppContextHOC from "../HOC/AppContextHOC";
 import _ from "lodash";
 
-class WillWatch extends React.Component {
+class WillWatch extends React.PureComponent {
   constructor() {
     super();
 
     this.state = {
-      isWillWatch: false
+      isLoading: false
     };
   }
 
   addToWatchList = () => {
     if (this.props.session_id) {
-      CallApi.post(`/account/${this.props.user.id}/watchlist`, {
-        params: {
-          session_id: this.props.session_id
+      this.setState(
+        {
+          isLoading: true
         },
-        body: {
-          media_type: "movie",
-          media_id: this.props.itemId,
-          watchlist: this.state.isWillWatch ? false : true
+        () => {
+          CallApi.post(`/account/${this.props.user.id}/watchlist`, {
+            params: {
+              session_id: this.props.session_id
+            },
+            body: {
+              media_type: "movie",
+              media_id: this.props.itemId,
+              watchlist: !this.getCurrentWatchList(
+                this.props.watchlist,
+                this.props.itemId
+              )
+            }
+          }).then(() => {
+            this.props.getWatchList().then(() => {
+              this.setState({
+                isLoading: false
+              });
+            });
+          });
         }
-      }).then(() => {
-        this.setState(
-          prevState => ({
-            isWillWatch: !prevState.isWillWatch
-          }),
-          () => {
-            this.props.getWatchList();
-          }
-        );
-      });
+      );
     } else {
       this.props.toggleLoginModal();
     }
   };
 
-  componentDidMount() {
-    this.props.watchlist.map(item => {
-      if (item.id === this.props.itemId) {
-        return this.setState({
-          isWillWatch: true
-        });
-      } else {
-        return false;
-      }
-    });
-  }
+  getCurrentWatchList = _.memoize((watchlist, itemId) =>
+    watchlist.some(item => item.id === itemId)
+  );
+  // componentDidMount() {
+  //   this.props.watchlist.map(item => {
+  //     if (item.id === this.props.itemId) {
+  //       return this.setState({
+  //         isWillWatch: true
+  //       });
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  // }
 
-  componentDidUpdate(prevProps) {
-    if (!_.isEqual(this.props.watchlist, prevProps.watchlist)) {
-      this.props.watchlist.map(item => {
-        if (item.id === this.props.itemId) {
-          return this.setState({
-            isWillWatch: true
-          });
-        } else {
-          return false;
-        }
-      });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (!_.isEqual(this.props.watchlist, prevProps.watchlist)) {
+  //     this.props.watchlist.map(item => {
+  //       if (item.id === this.props.itemId) {
+  //         return this.setState({
+  //           isWillWatch: true
+  //         });
+  //       } else {
+  //         return false;
+  //       }
+  //     });
+  //   }
+  // }
 
   render() {
+    const isWillWatch = this.getCurrentWatchList(
+      this.props.watchlist,
+      this.props.itemId
+    );
     return (
-      <div className="d-inline-flex" onClick={this.addToWatchList}>
-        {this.state.isWillWatch ? <Bookmark /> : <BookmarkBorder />}
+      <div
+        className="d-inline-flex"
+        onClick={this.addToWatchList}
+        style={{ pointerEvents: this.state.isLoading ? "none" : "auto" }}
+      >
+        {isWillWatch ? <Bookmark /> : <BookmarkBorder />}
       </div>
     );
   }

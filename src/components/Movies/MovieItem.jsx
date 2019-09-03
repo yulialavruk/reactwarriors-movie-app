@@ -2,9 +2,8 @@ import React from "react";
 import Favorite from "./Favorite";
 import WillWatch from "./WillWatch";
 
-class MovieItem extends React.Component {
+class MovieItem extends React.PureComponent {
   render() {
-    //console.log("rend");
     const { item } = this.props;
     return (
       <div className="card" style={{ width: "100%" }}>

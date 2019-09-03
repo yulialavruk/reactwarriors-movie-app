@@ -94,7 +94,7 @@ export default class App extends React.Component {
   };
 
   getFavoriteList = () => {
-    CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+    return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
       params: {
         session_id: this.state.session_id,
         language: "ru-RU",
@@ -109,7 +109,7 @@ export default class App extends React.Component {
   };
 
   getWatchList = () => {
-    CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+    return CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
       params: {
         session_id: this.state.session_id,
         language: "ru-RU",
@@ -130,44 +130,12 @@ export default class App extends React.Component {
         params: {
           session_id
         }
-      })
-        .then(user => {
-          this.updateUser(user);
-          this.updateSessionId(session_id);
-        })
-        .then(() => {
-          return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
-            params: {
-              session_id: this.state.session_id,
-              language: "ru-RU",
-              sort_by: this.state.filters.sort_by,
-              page: this.state.pagination.page
-            }
-          });
-        })
-        .then(data => {
-          this.setState({
-            favorite_movies: data.results
-          });
-        })
-        .then(() => {
-          return CallApi.get(
-            `/account/${this.state.user.id}/watchlist/movies`,
-            {
-              params: {
-                session_id: this.state.session_id,
-                language: "ru-RU",
-                sort_by: this.state.filters.sort_by,
-                page: this.state.pagination.page
-              }
-            }
-          );
-        })
-        .then(data => {
-          this.setState({
-            watchlist: data.results
-          });
-        });
+      }).then(user => {
+        this.updateUser(user);
+        this.updateSessionId(session_id);
+        this.getFavoriteList();
+        this.getWatchList();
+      });
     }
   }
 

@@ -7,7 +7,9 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-export const AppContext = React.createContext();
+//export const AppContext = React.createContext();
+export const withUser = React.createContext();
+export const withAuth = React.createContext();
 
 export default class App extends React.Component {
   constructor() {
@@ -151,50 +153,55 @@ export default class App extends React.Component {
     } = this.state;
     //console.log(this.state.favorite_list);
     return (
-      <AppContext.Provider
+      <withUser.Provider
         value={{
           user,
-          session_id,
           updateUser: this.updateUser,
-          updateSessionId: this.updateSessionId,
-          onLogOut: this.onLogOut,
           favorite_movies,
           getFavoriteList: this.getFavoriteList,
           watchlist,
-          getWatchList: this.getWatchList,
-          showLoginModal,
-          toggleLoginModal: this.toggleLoginModal
+          getWatchList: this.getWatchList
         }}
       >
-        <div>
-          <Header user={user} />
-          <div className="container">
-            <div className="row mt-4">
-              <div className="col-4">
-                <div className="card">
-                  <div className="card-body">
-                    <h3>Фильтры:</h3>
-                    <Filters
-                      filters={filters}
-                      pagination={pagination}
-                      onChangeFilter={this.onChangeFilter}
-                      onChangePagination={this.onChangePagination}
-                      onReset={this.onReset}
-                    />
+        <withAuth.Provider
+          value={{
+            session_id,
+            updateSessionId: this.updateSessionId,
+            onLogOut: this.onLogOut,
+            showLoginModal,
+            toggleLoginModal: this.toggleLoginModal
+          }}
+        >
+          <div>
+            <Header />
+            <div className="container">
+              <div className="row mt-4">
+                <div className="col-4">
+                  <div className="card">
+                    <div className="card-body">
+                      <h3>Фильтры:</h3>
+                      <Filters
+                        filters={filters}
+                        pagination={pagination}
+                        onChangeFilter={this.onChangeFilter}
+                        onChangePagination={this.onChangePagination}
+                        onReset={this.onReset}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-8">
-                <MoviesList
-                  filters={filters}
-                  pagination={pagination}
-                  onChangePagination={this.onChangePagination}
-                />
+                <div className="col-8">
+                  <MoviesList
+                    filters={filters}
+                    pagination={pagination}
+                    onChangePagination={this.onChangePagination}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </AppContext.Provider>
+        </withAuth.Provider>
+      </withUser.Provider>
     );
   }
 }

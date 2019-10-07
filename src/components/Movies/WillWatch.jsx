@@ -1,8 +1,8 @@
 import React from "react";
 import CallApi from "../../api/api";
 import { Bookmark, BookmarkBorder } from "@material-ui/icons";
-import AppContextHOC from "../HOC/AppContextHOC";
-import _ from "lodash";
+import withUserHOC from "../HOC/withUser";
+import withAuthHOC from "../HOC/withAuth";
 
 class WillWatch extends React.PureComponent {
   constructor() {
@@ -46,40 +46,16 @@ class WillWatch extends React.PureComponent {
     }
   };
 
-  getCurrentWatchList = _.memoize((watchlist, itemId) =>
-    watchlist.some(item => item.id === itemId)
-  );
-  // componentDidMount() {
-  //   this.props.watchlist.map(item => {
-  //     if (item.id === this.props.itemId) {
-  //       return this.setState({
-  //         isWillWatch: true
-  //       });
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (!_.isEqual(this.props.watchlist, prevProps.watchlist)) {
-  //     this.props.watchlist.map(item => {
-  //       if (item.id === this.props.itemId) {
-  //         return this.setState({
-  //           isWillWatch: true
-  //         });
-  //       } else {
-  //         return false;
-  //       }
-  //     });
-  //   }
-  // }
+  getCurrentWatchList = (watchlist, itemId) =>
+    watchlist.some(item => item.id === itemId);
 
   render() {
     const isWillWatch = this.getCurrentWatchList(
       this.props.watchlist,
       this.props.itemId
     );
+
+    //console.log(isWillWatch);
     return (
       <div
         className="d-inline-flex"
@@ -91,4 +67,30 @@ class WillWatch extends React.PureComponent {
     );
   }
 }
-export default AppContextHOC(WillWatch);
+export default withUserHOC(withAuthHOC(WillWatch));
+
+// componentDidMount() {
+//   this.props.watchlist.map(item => {
+//     if (item.id === this.props.itemId) {
+//       return this.setState({
+//         isWillWatch: true
+//       });
+//     } else {
+//       return false;
+//     }
+//   });
+// }
+
+// componentDidUpdate(prevProps) {
+//   if (!_.isEqual(this.props.watchlist, prevProps.watchlist)) {
+//     this.props.watchlist.map(item => {
+//       if (item.id === this.props.itemId) {
+//         return this.setState({
+//           isWillWatch: true
+//         });
+//       } else {
+//         return false;
+//       }
+//     });
+//   }
+// }

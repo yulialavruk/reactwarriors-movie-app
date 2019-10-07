@@ -2,7 +2,8 @@ import React from "react";
 import CallApi from "../../../api/api";
 import validateFields from "./validate";
 import Field from "./Field";
-import AppContextHOC from "../../HOC/AppContextHOC";
+import withUserHOC from "../../HOC/withUser";
+import withAuthHOC from "../../HOC/withAuth";
 
 class LoginForm extends React.Component {
   constructor() {
@@ -10,9 +11,9 @@ class LoginForm extends React.Component {
 
     this.state = {
       values: {
-        username: "",
-        password: "",
-        repeatPassword: ""
+        username: "belka",
+        password: "zxcvbn",
+        repeatPassword: "zxcvbn"
       },
       errors: {},
       submitting: false
@@ -182,4 +183,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default AppContextHOC(LoginForm);
+export default withUserHOC(withAuthHOC(LoginForm));

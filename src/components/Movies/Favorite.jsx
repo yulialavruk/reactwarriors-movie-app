@@ -1,8 +1,8 @@
 import React from "react";
 import CallApi from "../../api/api";
 import { Star, StarBorder } from "@material-ui/icons";
-import AppContextHOC from "../HOC/AppContextHOC";
-import _ from "lodash";
+import withUserHOC from "../HOC/withUser";
+import withAuthHOC from "../HOC/withAuth";
 
 class Favorite extends React.PureComponent {
   constructor() {
@@ -46,41 +46,15 @@ class Favorite extends React.PureComponent {
     }
   };
 
-  getCurrentFavorite = _.memoize((favorite_movies, itemId) =>
-    favorite_movies.some(item => item.id === itemId)
-  );
-
-  // componentDidMount() {
-  //   this.props.favorite_movies.map(item => {
-  //     if (item.id === this.props.itemId) {
-  //       return this.setState({
-  //         isFavorite: true
-  //       });
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (!_.isEqual(this.props.favorite_movies, prevProps.favorite_movies)) {
-  //     this.props.favorite_movies.map(item => {
-  //       if (item.id === this.props.itemId) {
-  //         return this.setState({
-  //           isFavorite: true
-  //         });
-  //       } else {
-  //         return false;
-  //       }
-  //     });
-  //   }
-  // }
+  getCurrentFavorite = (favorite_movies, itemId) =>
+    favorite_movies.some(item => item.id === itemId);
 
   render() {
     const isFavorite = this.getCurrentFavorite(
       this.props.favorite_movies,
       this.props.itemId
     );
+    //console.log(isFavorite);
     return (
       <div
         className="d-inline-flex"
@@ -93,4 +67,30 @@ class Favorite extends React.PureComponent {
   }
 }
 
-export default AppContextHOC(Favorite);
+export default withUserHOC(withAuthHOC(Favorite));
+
+// componentDidMount() {
+//   this.props.favorite_movies.map(item => {
+//     if (item.id === this.props.itemId) {
+//       return this.setState({
+//         isFavorite: true
+//       });
+//     } else {
+//       return false;
+//     }
+//   });
+// }
+
+// componentDidUpdate(prevProps) {
+//   if (!_.isEqual(this.props.favorite_movies, prevProps.favorite_movies)) {
+//     this.props.favorite_movies.map(item => {
+//       if (item.id === this.props.itemId) {
+//         return this.setState({
+//           isFavorite: true
+//         });
+//       } else {
+//         return false;
+//       }
+//     });
+//   }
+// }

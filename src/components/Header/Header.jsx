@@ -1,8 +1,9 @@
 import React from "react";
 import Login from "./Login/Login";
 import UserMenu from "./UserMenu";
+import withUserHOC from "../HOC/withUser";
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   render() {
     const { user } = this.props;
     return (
@@ -21,3 +22,5 @@ export default class Header extends React.Component {
     );
   }
 }
+
+export default withUserHOC(Header);

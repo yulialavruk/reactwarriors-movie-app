@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 import LoginForm from "./LoginForm";
-import AppContextHOC from "../../HOC/AppContextHOC";
+import withAuthHOC from "../../HOC/withAuth";
 
 class Login extends React.Component {
   render() {
@@ -25,7 +25,7 @@ class Login extends React.Component {
   }
 }
 
-export default AppContextHOC(Login);
+export default withAuthHOC(Login);
 
 //async/await
 // try {

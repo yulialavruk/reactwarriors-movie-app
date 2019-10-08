@@ -16,8 +16,8 @@ class MovieItem extends React.PureComponent {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-          <Favorite itemId={item.id} />
-          <WillWatch itemId={item.id} />
+          <Favorite movieId={item.id} />
+          <WillWatch movieId={item.id} />
         </div>
       </div>
     );

@@ -7,7 +7,6 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-//export const AppContext = React.createContext();
 export const withUser = React.createContext();
 export const withAuth = React.createContext();
 
@@ -56,6 +55,17 @@ export default class App extends React.Component {
     }));
   };
 
+  handleLogOut = () => {
+    const { session_id } = this.state;
+    CallApi.delete("/authentication/session", {
+      body: {
+        session_id
+      }
+    }).then(() => {
+      this.onLogOut();
+    });
+  };
+
   onLogOut = () => {
     cookies.remove("session_id");
     this.setState({
@@ -92,16 +102,28 @@ export default class App extends React.Component {
   };
 
   onReset = () => {
-    this.setState({ ...this.initialState });
+    const { user, session_id, favorite_movies, watchlist } = this.state;
+    this.setState({
+      ...this.initialState,
+      user,
+      session_id,
+      favorite_movies,
+      watchlist
+    });
   };
 
   getFavoriteList = () => {
+    const {
+      session_id,
+      filters: { sort_by },
+      pagination: { page }
+    } = this.state;
     return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
       params: {
-        session_id: this.state.session_id,
+        session_id,
         language: "ru-RU",
-        sort_by: this.state.filters.sort_by,
-        page: this.state.pagination.page
+        sort_by,
+        page
       }
     }).then(data => {
       this.setState({
@@ -111,12 +133,17 @@ export default class App extends React.Component {
   };
 
   getWatchList = () => {
+    const {
+      session_id,
+      filters: { sort_by },
+      pagination: { page }
+    } = this.state;
     return CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
       params: {
-        session_id: this.state.session_id,
+        session_id,
         language: "ru-RU",
-        sort_by: this.state.filters.sort_by,
-        page: this.state.pagination.page
+        sort_by,
+        page
       }
     }).then(data => {
       this.setState({
@@ -125,14 +152,18 @@ export default class App extends React.Component {
     });
   };
 
+  getUser = session_id => {
+    return CallApi.get("/account", {
+      params: {
+        session_id
+      }
+    });
+  };
+
   componentDidMount() {
     const session_id = cookies.get("session_id");
     if (session_id) {
-      CallApi.get("/account", {
-        params: {
-          session_id
-        }
-      }).then(user => {
+      this.getUser(session_id).then(user => {
         this.updateUser(user);
         this.updateSessionId(session_id);
         this.getFavoriteList();
@@ -151,12 +182,12 @@ export default class App extends React.Component {
       showLoginModal,
       favorite_movies
     } = this.state;
-    //console.log(this.state.favorite_list);
     return (
       <withUser.Provider
         value={{
           user,
           updateUser: this.updateUser,
+          getUser: this.getUser,
           favorite_movies,
           getFavoriteList: this.getFavoriteList,
           watchlist,
@@ -167,7 +198,7 @@ export default class App extends React.Component {
           value={{
             session_id,
             updateSessionId: this.updateSessionId,
-            onLogOut: this.onLogOut,
+            handleLogOut: this.handleLogOut,
             showLoginModal,
             toggleLoginModal: this.toggleLoginModal
           }}

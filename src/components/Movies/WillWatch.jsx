@@ -14,26 +14,31 @@ class WillWatch extends React.PureComponent {
   }
 
   addToWatchList = () => {
-    if (this.props.session_id) {
+    const {
+      user,
+      session_id,
+      movieId,
+      watchlist,
+      getWatchList,
+      toggleLoginModal
+    } = this.props;
+    if (session_id) {
       this.setState(
         {
           isLoading: true
         },
         () => {
-          CallApi.post(`/account/${this.props.user.id}/watchlist`, {
+          CallApi.post(`/account/${user.id}/watchlist`, {
             params: {
-              session_id: this.props.session_id
+              session_id
             },
             body: {
               media_type: "movie",
-              media_id: this.props.itemId,
-              watchlist: !this.getCurrentWatchList(
-                this.props.watchlist,
-                this.props.itemId
-              )
+              media_id: movieId,
+              watchlist: !this.getCurrentWatchList(watchlist, movieId)
             }
           }).then(() => {
-            this.props.getWatchList().then(() => {
+            getWatchList().then(() => {
               this.setState({
                 isLoading: false
               });
@@ -42,25 +47,23 @@ class WillWatch extends React.PureComponent {
         }
       );
     } else {
-      this.props.toggleLoginModal();
+      toggleLoginModal();
     }
   };
 
-  getCurrentWatchList = (watchlist, itemId) =>
-    watchlist.some(item => item.id === itemId);
+  getCurrentWatchList = (watchlist, movieId) =>
+    watchlist.some(item => item.id === movieId);
 
   render() {
-    const isWillWatch = this.getCurrentWatchList(
-      this.props.watchlist,
-      this.props.itemId
-    );
-
+    const { isLoading } = this.state;
+    const { watchlist, movieId } = this.props;
+    const isWillWatch = this.getCurrentWatchList(watchlist, movieId);
     //console.log(isWillWatch);
     return (
       <div
         className="d-inline-flex"
         onClick={this.addToWatchList}
-        style={{ pointerEvents: this.state.isLoading ? "none" : "auto" }}
+        style={{ pointerEvents: isLoading ? "none" : "auto" }}
       >
         {isWillWatch ? <Bookmark /> : <BookmarkBorder />}
       </div>

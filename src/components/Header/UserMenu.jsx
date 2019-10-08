@@ -7,7 +7,6 @@ import {
 } from "reactstrap";
 import withUserHOC from "../HOC/withUser";
 import withAuthHOC from "../HOC/withAuth";
-import CallApi from "../../api/api";
 
 class UserMenu extends React.Component {
   constructor() {
@@ -24,25 +23,16 @@ class UserMenu extends React.Component {
     }));
   };
 
-  handleLogOut = () => {
-    CallApi.delete("/authentication/session", {
-      body: {
-        session_id: this.props.session_id
-      }
-    }).then(() => {
-      this.props.onLogOut();
-    });
-  };
-
   render() {
-    const { user } = this.props;
+    const { dropdownOpen } = this.state;
+    const { user, handleLogOut } = this.props;
     return (
-      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+      <Dropdown isOpen={dropdownOpen} toggle={this.toggleDropdown}>
         <DropdownToggle
           tag="div"
           onClick={this.toggleDropdown}
           data-toggle="dropdown"
-          aria-expanded={this.state.dropdownOpen}
+          aria-expanded={dropdownOpen}
         >
           <img
             width="40"
@@ -53,7 +43,7 @@ class UserMenu extends React.Component {
           />
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem onClick={this.handleLogOut}>Выйти</DropdownItem>
+          <DropdownItem onClick={handleLogOut}>Выйти</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );

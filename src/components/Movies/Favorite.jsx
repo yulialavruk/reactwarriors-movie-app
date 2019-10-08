@@ -14,26 +14,31 @@ class Favorite extends React.PureComponent {
   }
 
   markAsFavorite = () => {
-    if (this.props.session_id) {
+    const {
+      user,
+      session_id,
+      movieId,
+      favorite_movies,
+      getFavoriteList,
+      toggleLoginModal
+    } = this.props;
+    if (session_id) {
       this.setState(
         {
           isLoading: true
         },
         () => {
-          CallApi.post(`/account/${this.props.user.id}/favorite`, {
+          CallApi.post(`/account/${user.id}/favorite`, {
             params: {
-              session_id: this.props.session_id
+              session_id
             },
             body: {
               media_type: "movie",
-              media_id: this.props.itemId,
-              favorite: !this.getCurrentFavorite(
-                this.props.favorite_movies,
-                this.props.itemId
-              )
+              media_id: movieId,
+              favorite: !this.getCurrentFavorite(favorite_movies, movieId)
             }
           }).then(() => {
-            this.props.getFavoriteList().then(() => {
+            getFavoriteList().then(() => {
               this.setState({
                 isLoading: false
               });
@@ -42,24 +47,23 @@ class Favorite extends React.PureComponent {
         }
       );
     } else {
-      this.props.toggleLoginModal();
+      toggleLoginModal();
     }
   };
 
-  getCurrentFavorite = (favorite_movies, itemId) =>
-    favorite_movies.some(item => item.id === itemId);
+  getCurrentFavorite = (favorite_movies, movieId) =>
+    favorite_movies.some(item => item.id === movieId);
 
   render() {
-    const isFavorite = this.getCurrentFavorite(
-      this.props.favorite_movies,
-      this.props.itemId
-    );
+    const { isLoading } = this.state;
+    const { favorite_movies, movieId } = this.props;
+    const isFavorite = this.getCurrentFavorite(favorite_movies, movieId);
     //console.log(isFavorite);
     return (
       <div
         className="d-inline-flex"
         onClick={this.markAsFavorite}
-        style={{ pointerEvents: this.state.isLoading ? "none" : "auto" }}
+        style={{ pointerEvents: isLoading ? "none" : "auto" }}
       >
         {isFavorite ? <Star /> : <StarBorder />}
       </div>

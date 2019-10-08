@@ -51,6 +51,16 @@ class LoginForm extends React.Component {
   };
 
   onSubmit = () => {
+    const {
+      values: { username, password }
+    } = this.state;
+    const {
+      updateUser,
+      updateSessionId,
+      getFavoriteList,
+      getWatchList,
+      getUser
+    } = this.props;
     this.setState({
       submitting: true
     });
@@ -58,8 +68,8 @@ class LoginForm extends React.Component {
       .then(data => {
         return CallApi.post("/authentication/token/validate_with_login", {
           body: {
-            username: this.state.values.username,
-            password: this.state.values.password,
+            username,
+            password,
             request_token: data.request_token
           }
         });
@@ -72,12 +82,8 @@ class LoginForm extends React.Component {
         });
       })
       .then(data => {
-        this.props.updateSessionId(data.session_id);
-        return CallApi.get("/account", {
-          params: {
-            session_id: data.session_id
-          }
-        });
+        updateSessionId(data.session_id);
+        return getUser(data.session_id);
       })
       .then(user => {
         this.setState(
@@ -85,15 +91,15 @@ class LoginForm extends React.Component {
             submitting: false
           },
           () => {
-            this.props.updateUser(user);
+            updateUser(user);
           }
         );
       })
       .then(() => {
-        this.props.getFavoriteList();
+        getFavoriteList();
       })
       .then(() => {
-        this.props.getWatchList();
+        getWatchList();
       })
       .catch(error => {
         console.log("error", error);

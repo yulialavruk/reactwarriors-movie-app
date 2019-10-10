@@ -1,9 +1,10 @@
 import React from "react";
-import Filters from "./Filters/Filters";
-import MoviesList from "./Movies/MoviesList";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
+import MoviesPage from "./pages/MoviesPage/MoviesPage";
+import MoviePage from "./pages/MoviePage/MoviePage";
 import Cookies from "universal-cookie";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -18,15 +19,6 @@ export default class App extends React.Component {
       user: null,
       session_id: null,
       showLoginModal: false,
-      filters: {
-        sort_by: "vote_average.desc",
-        primary_release_year: "",
-        with_genres: []
-      },
-      pagination: {
-        page: 1,
-        total_pages: 1
-      },
       favorite_movies: [],
       watchlist: []
     };
@@ -68,62 +60,14 @@ export default class App extends React.Component {
 
   onLogOut = () => {
     cookies.remove("session_id");
-    this.setState({
-      session_id: null,
-      user: null,
-      showLoginModal: false,
-      favorite_movies: [],
-      watchlist: []
-    });
-  };
-
-  onChangeFilter = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-    this.setState(prevState => ({
-      filters: {
-        ...prevState.filters,
-        [name]: value
-      }
-    }));
-  };
-
-  onChangePagination = (
-    page,
-    total_pages = this.state.pagination.total_pages
-  ) => {
-    this.setState(prevState => ({
-      pagination: {
-        ...prevState.pagination,
-        page,
-        total_pages
-      }
-    }));
-  };
-
-  onReset = () => {
-    const { user, session_id, favorite_movies, watchlist } = this.state;
-    this.setState({
-      ...this.initialState,
-      user,
-      session_id,
-      favorite_movies,
-      watchlist
-    });
+    this.setState({ ...this.initialState });
   };
 
   getFavoriteList = () => {
-    const {
-      session_id,
-      filters: { sort_by },
-      pagination: { page }
-    } = this.state;
+    const { session_id } = this.state;
     return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
       params: {
-        session_id,
-        language: "ru-RU",
-        sort_by,
-        page
+        session_id
       }
     }).then(data => {
       this.setState({
@@ -133,17 +77,10 @@ export default class App extends React.Component {
   };
 
   getWatchList = () => {
-    const {
-      session_id,
-      filters: { sort_by },
-      pagination: { page }
-    } = this.state;
+    const { session_id } = this.state;
     return CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
       params: {
-        session_id,
-        language: "ru-RU",
-        sort_by,
-        page
+        session_id
       }
     }).then(data => {
       this.setState({
@@ -174,8 +111,6 @@ export default class App extends React.Component {
 
   render() {
     const {
-      filters,
-      pagination,
       user,
       session_id,
       watchlist,
@@ -183,56 +118,36 @@ export default class App extends React.Component {
       favorite_movies
     } = this.state;
     return (
-      <withUser.Provider
-        value={{
-          user,
-          updateUser: this.updateUser,
-          getUser: this.getUser,
-          favorite_movies,
-          getFavoriteList: this.getFavoriteList,
-          watchlist,
-          getWatchList: this.getWatchList
-        }}
-      >
-        <withAuth.Provider
+      <BrowserRouter>
+        <withUser.Provider
           value={{
-            session_id,
-            updateSessionId: this.updateSessionId,
-            handleLogOut: this.handleLogOut,
-            showLoginModal,
-            toggleLoginModal: this.toggleLoginModal
+            user,
+            updateUser: this.updateUser,
+            getUser: this.getUser,
+            favorite_movies,
+            getFavoriteList: this.getFavoriteList,
+            watchlist,
+            getWatchList: this.getWatchList
           }}
         >
-          <div>
-            <Header />
-            <div className="container">
-              <div className="row mt-4">
-                <div className="col-4">
-                  <div className="card">
-                    <div className="card-body">
-                      <h3>Фильтры:</h3>
-                      <Filters
-                        filters={filters}
-                        pagination={pagination}
-                        onChangeFilter={this.onChangeFilter}
-                        onChangePagination={this.onChangePagination}
-                        onReset={this.onReset}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-8">
-                  <MoviesList
-                    filters={filters}
-                    pagination={pagination}
-                    onChangePagination={this.onChangePagination}
-                  />
-                </div>
-              </div>
+          <withAuth.Provider
+            value={{
+              session_id,
+              updateSessionId: this.updateSessionId,
+              handleLogOut: this.handleLogOut,
+              showLoginModal,
+              toggleLoginModal: this.toggleLoginModal
+            }}
+          >
+            <div>
+              <Header />
+              <Link to="/movie">go to MoviePage</Link>
+              <Route exact path="/" component={MoviesPage} />
+              <Route path="/movie" component={MoviePage} />
             </div>
-          </div>
-        </withAuth.Provider>
-      </withUser.Provider>
+          </withAuth.Provider>
+        </withUser.Provider>
+      </BrowserRouter>
     );
   }
 }

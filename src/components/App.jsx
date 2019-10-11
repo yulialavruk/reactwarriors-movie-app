@@ -141,9 +141,8 @@ export default class App extends React.Component {
           >
             <div>
               <Header />
-              <Link to="/movie">go to MoviePage</Link>
               <Route exact path="/" component={MoviesPage} />
-              <Route path="/movie" component={MoviePage} />
+              <Route path="/movie/:id" component={MoviePage} />
             </div>
           </withAuth.Provider>
         </withUser.Provider>

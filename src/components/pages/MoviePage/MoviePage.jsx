@@ -2,6 +2,7 @@ import React from "react";
 import CallApi from "../../../api/api";
 import { Star, StarBorder } from "@material-ui/icons";
 import { Bookmark, BookmarkBorder } from "@material-ui/icons";
+import MoviePageTabs from "./MoviePageTabs";
 
 export default class MoviePage extends React.Component {
   constructor() {
@@ -43,6 +44,10 @@ export default class MoviePage extends React.Component {
             <p>{movieDetails.overview}</p>
           </div>
         </div>
+        <MoviePageTabs
+          movieDetails={movieDetails}
+          movieId={this.props.match.params.id}
+        />
       </div>
     );
   }

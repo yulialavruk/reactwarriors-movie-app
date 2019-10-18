@@ -15,7 +15,7 @@ class MovieItem extends React.PureComponent {
           alt=""
         />
         <div className="card-body">
-          <Link className="card-title" to={`/movie/${item.id}`}>
+          <Link className="card-title" to={`/movie/${item.id}/details`}>
             {item.title}
           </Link>
           <div className="card-text">Рейтинг: {item.vote_average}</div>

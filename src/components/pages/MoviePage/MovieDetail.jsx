@@ -2,16 +2,8 @@ import React from "react";
 import { Table } from "reactstrap";
 
 export default class MovieDetail extends React.Component {
-  // constructor() {
-  //   super();
-
-  // }
-
   render() {
     const { movieDetails } = this.props;
-    // const production_countr = movieDetails.production_countries.map(
-    //   item => item.name
-    // );
     const movieDataList = [
       {
         name: "Статус",
@@ -32,7 +24,7 @@ export default class MovieDetail extends React.Component {
       {
         name: "Страна",
         value:
-          movieDetails && movieDetails.length > 0
+          movieDetails && movieDetails.production_countries
             ? movieDetails.production_countries.map(item => item.name)
             : ""
       },
@@ -45,24 +37,30 @@ export default class MovieDetail extends React.Component {
         value: movieDetails.revenue + "$"
       },
       {
-        name: "Компания"
-        //value: movieDetails.status
+        name: "Компания",
+        value:
+          movieDetails && movieDetails.production_companies
+            ? movieDetails.production_companies.map(item => item.name)
+            : ""
       },
       {
-        name: "Жанры"
-        //value: movieDetails.status
+        name: "Жанры",
+        value:
+          movieDetails && movieDetails.genres
+            ? movieDetails.genres.map(item => item.name)
+            : ""
       }
     ];
 
-    console.log(movieDataList);
+    //console.log(movieDataList);
     return (
       <Table>
         <tbody>
-          {movieDataList.map(item => {
+          {movieDataList.map((item, index) => {
             return (
-              <tr key={item.name}>
+              <tr key={index}>
                 <th scope="row">{item.name}</th>
-                <td>{item.value}</td>
+                <td>{item.value + ""}</td>
               </tr>
             );
           })}

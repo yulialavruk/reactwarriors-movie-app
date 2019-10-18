@@ -22,7 +22,7 @@ export default class MoviePage extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    //console.log(this.state);
     const { movieDetails } = this.state;
     return (
       <div className="container">

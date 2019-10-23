@@ -5,8 +5,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import withUserHOC from "../HOC/withUser";
-import withAuthHOC from "../HOC/withAuth";
+import withUser from "../HOC/withUser";
+import withAuth from "../HOC/withAuth";
 
 class UserMenu extends React.Component {
   constructor() {
@@ -50,4 +50,4 @@ class UserMenu extends React.Component {
   }
 }
 
-export default withUserHOC(withAuthHOC(UserMenu));
+export default withUser(withAuth(UserMenu));

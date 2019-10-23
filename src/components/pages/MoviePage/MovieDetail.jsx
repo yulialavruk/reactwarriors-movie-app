@@ -1,7 +1,18 @@
 import React from "react";
 import { Table } from "reactstrap";
 
+// const getValues = values => {
+//   values.map(item => item.name);
+// };
 export default class MovieDetail extends React.Component {
+  static defaultProps = {
+    movieDetails: {
+      production_countries: [],
+      production_companies: [],
+      genres: []
+    }
+  };
+
   render() {
     const { movieDetails } = this.props;
     const movieDataList = [
@@ -15,7 +26,7 @@ export default class MovieDetail extends React.Component {
       },
       {
         name: "Продолжительность",
-        value: movieDetails.runtime + "минут"
+        value: `${movieDetails.runtime}минут`
       },
       {
         name: "Язык оригинала",
@@ -23,36 +34,27 @@ export default class MovieDetail extends React.Component {
       },
       {
         name: "Страна",
-        value:
-          movieDetails && movieDetails.production_countries
-            ? movieDetails.production_countries.map(item => item.name)
-            : ""
+        value: movieDetails.production_countries.map(item => item.name)
       },
       {
         name: "Бюджет",
-        value: movieDetails.budget + "$"
+        value: `${movieDetails.budget}$`
       },
       {
         name: "Сборы",
-        value: movieDetails.revenue + "$"
+        value: `${movieDetails.revenue}$`
       },
       {
         name: "Компания",
-        value:
-          movieDetails && movieDetails.production_companies
-            ? movieDetails.production_companies.map(item => item.name)
-            : ""
+        value: movieDetails.production_companies.map(item => item.name)
       },
       {
         name: "Жанры",
-        value:
-          movieDetails && movieDetails.genres
-            ? movieDetails.genres.map(item => item.name)
-            : ""
+        value: movieDetails.genres.map(item => item.name)
       }
     ];
 
-    //console.log(movieDataList);
+    //console.log(movieDetails);
     return (
       <Table>
         <tbody>
@@ -60,7 +62,7 @@ export default class MovieDetail extends React.Component {
             return (
               <tr key={index}>
                 <th scope="row">{item.name}</th>
-                <td>{item.value + ""}</td>
+                <td>{`${item.value}`}</td>
               </tr>
             );
           })}

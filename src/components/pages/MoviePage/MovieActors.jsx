@@ -1,40 +1,49 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import CallApi from "../../../api/api";
+import Image from "../../UIComponents/Image";
+import Loader from "../../UIComponents/Loader";
 
-export default class MovieActors extends React.Component {
+class MovieActors extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      movieActors: []
+      movieActors: [],
+      isLoading: true
     };
   }
 
   componentDidMount() {
-    CallApi.get(`/movie/${this.props.movieId}/credits`).then(data => {
-      this.setState({ movieActors: data });
+    const {
+      match: { params }
+    } = this.props;
+    CallApi.get(`/movie/${params.id}/credits`).then(data => {
+      this.setState({
+        movieActors: data,
+        isLoading: false
+      });
     });
   }
 
   render() {
-    const { movieActors } = this.state;
-    return movieActors && movieActors.cast
-      ? movieActors.cast.map(item => {
-          if (item.profile_path) {
-            return (
-              <img
-                key={item.id}
-                className="pr-1"
-                src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
-                alt=""
-                width="150px"
-                height="200px"
-              />
-            );
-          } else {
-            return false;
-          }
-        })
-      : "";
+    const { movieActors, isLoading } = this.state;
+    return isLoading ? (
+      <Loader />
+    ) : (
+      movieActors.cast.map(
+        item =>
+          item.profile_path && (
+            <Image
+              key={item.id}
+              className="pr-1 pb-1"
+              imagePath={item.profile_path}
+              width="150px"
+              height="200px"
+            />
+          )
+      )
+    );
   }
 }
+export default withRouter(MovieActors);

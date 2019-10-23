@@ -1,8 +1,8 @@
 import React from "react";
 import CallApi from "../../api/api";
 import { Bookmark, BookmarkBorder } from "@material-ui/icons";
-import withUserHOC from "../HOC/withUser";
-import withAuthHOC from "../HOC/withAuth";
+import withUser from "../HOC/withUser";
+import withAuth from "../HOC/withAuth";
 
 class WillWatch extends React.PureComponent {
   constructor() {
@@ -70,7 +70,7 @@ class WillWatch extends React.PureComponent {
     );
   }
 }
-export default withUserHOC(withAuthHOC(WillWatch));
+export default withUser(withAuth(WillWatch));
 
 // componentDidMount() {
 //   this.props.watchlist.map(item => {

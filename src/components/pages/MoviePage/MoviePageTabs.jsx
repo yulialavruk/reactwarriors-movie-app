@@ -1,47 +1,24 @@
 import React from "react";
-import { NavLink, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import NavTabs from "./NavTabs";
 import MovieDetail from "./MovieDetail";
-import MovieVideo from "./MovieVideo";
+import MovieVideos from "./MovieVideos";
 import MovieActors from "./MovieActors";
 
 export default class MoviePageTabs extends React.Component {
   render() {
-    const { movieDetails, movieId } = this.props;
+    const { movieDetails } = this.props;
     return (
       <div className="row justify-content-center mt-4">
         <div className="col-9">
-          <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <NavLink
-                to={`/movie/${movieId}/details`}
-                className="nav-link"
-                activeClassName="active"
-              >
-                Детали
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to={`/movie/${movieId}/video`} className="nav-link">
-                Видео
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to={`/movie/${movieId}/actors`} className="nav-link">
-                Актеры
-              </NavLink>
-            </li>
-          </ul>
+          <NavTabs />
           <div className="content">
             <Switch>
               <Route path="/movie/:id/details">
                 <MovieDetail movieDetails={movieDetails} />
               </Route>
-              <Route path="/movie/:id/video">
-                <MovieVideo movieId={movieId} />
-              </Route>
-              <Route path="/movie/:id/actors">
-                <MovieActors movieId={movieId} />
-              </Route>
+              <Route path="/movie/:id/videos" component={MovieVideos} />
+              <Route path="/movie/:id/actors" component={MovieActors} />
             </Switch>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import CallApi from "../../api/api";
 import { Star, StarBorder } from "@material-ui/icons";
-import withUserHOC from "../HOC/withUser";
-import withAuthHOC from "../HOC/withAuth";
+import withUser from "../HOC/withUser";
+import withAuth from "../HOC/withAuth";
 
 class Favorite extends React.PureComponent {
   constructor() {
@@ -71,7 +71,7 @@ class Favorite extends React.PureComponent {
   }
 }
 
-export default withUserHOC(withAuthHOC(Favorite));
+export default withUser(withAuth(Favorite));
 
 // componentDidMount() {
 //   this.props.favorite_movies.map(item => {

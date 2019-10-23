@@ -2,8 +2,8 @@ import React from "react";
 import CallApi from "../../../api/api";
 import validateFields from "./validate";
 import Field from "./Field";
-import withUserHOC from "../../HOC/withUser";
-import withAuthHOC from "../../HOC/withAuth";
+import withUser from "../../HOC/withUser";
+import withAuth from "../../HOC/withAuth";
 
 class LoginForm extends React.Component {
   constructor() {
@@ -189,4 +189,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withUserHOC(withAuthHOC(LoginForm));
+export default withUser(withAuth(LoginForm));

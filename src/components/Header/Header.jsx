@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login/Login";
 import UserMenu from "./UserMenu";
-import withUserHOC from "../HOC/withUser";
+import withUser from "../HOC/withUser";
 
 class Header extends React.Component {
   render() {
@@ -23,4 +23,4 @@ class Header extends React.Component {
   }
 }
 
-export default withUserHOC(Header);
+export default withUser(Header);

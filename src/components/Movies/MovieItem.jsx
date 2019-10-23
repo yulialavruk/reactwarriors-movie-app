@@ -2,17 +2,16 @@ import React from "react";
 import Favorite from "./Favorite";
 import WillWatch from "./WillWatch";
 import { Link } from "react-router-dom";
+import Image from "../UIComponents/Image";
 
 class MovieItem extends React.PureComponent {
   render() {
     const { item } = this.props;
     return (
       <div className="card" style={{ width: "100%" }}>
-        <img
+        <Image
           className="card-img-top card-img--height"
-          src={`https://image.tmdb.org/t/p/w500${item.backdrop_path ||
-            item.poster_path}`}
-          alt=""
+          imagePath={item.backdrop_path || item.poster_path}
         />
         <div className="card-body">
           <Link className="card-title" to={`/movie/${item.id}/details`}>

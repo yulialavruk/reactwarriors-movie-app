@@ -1,13 +1,13 @@
 import React from "react";
-import { withAuth } from "../App";
+import { AuthContextHOC } from "../App";
 
 export default Component =>
-  class withAuthHOC extends React.Component {
+  class withAuth extends React.Component {
     render() {
       return (
-        <withAuth.Consumer>
+        <AuthContextHOC.Consumer>
           {context => <Component {...this.props} {...context} />}
-        </withAuth.Consumer>
+        </AuthContextHOC.Consumer>
       );
     }
   };

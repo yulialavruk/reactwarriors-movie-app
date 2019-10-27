@@ -1,6 +1,6 @@
 import React from "react";
 import CallApi from "../../../api/api";
-import MoviePageTabs from "./MoviePageTabs";
+import MoviePageTabs from "./MoviePageTabs/MoviePageTabs";
 import Image from "../../UIComponents/Image";
 import MovieOverview from "./MovieOverview";
 import Loader from "../../UIComponents/Loader";
@@ -14,8 +14,10 @@ export default class MoviePage extends React.Component {
     };
   }
   componentDidMount() {
-    const { match } = this.props;
-    CallApi.get(`${match.url}`, {
+    const {
+      match: { params }
+    } = this.props;
+    CallApi.get(`/movie/${params.id}`, {
       params: {
         language: "ru-RU"
       }
@@ -37,7 +39,7 @@ export default class MoviePage extends React.Component {
           <React.Fragment>
             <div className="row justify-content-center mt-4">
               <div className="col-3">
-                <Image imagePath={movieDetails.poster_path} width="100%" />
+                <Image path={movieDetails.poster_path} width="100%" alt="" />
               </div>
               <div className="col-6">
                 <MovieOverview

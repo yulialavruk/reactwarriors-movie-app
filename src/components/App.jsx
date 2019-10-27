@@ -8,8 +8,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 const cookies = new Cookies();
 
-export const UserContextHOC = React.createContext();
-export const AuthContextHOC = React.createContext();
+export const UserContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export default class App extends React.Component {
   constructor() {
@@ -119,7 +119,7 @@ export default class App extends React.Component {
     } = this.state;
     return (
       <BrowserRouter>
-        <UserContextHOC.Provider
+        <UserContext.Provider
           value={{
             user,
             updateUser: this.updateUser,
@@ -130,7 +130,7 @@ export default class App extends React.Component {
             getWatchList: this.getWatchList
           }}
         >
-          <AuthContextHOC.Provider
+          <AuthContext.Provider
             value={{
               session_id,
               updateSessionId: this.updateSessionId,
@@ -144,8 +144,8 @@ export default class App extends React.Component {
               <Route exact path="/" component={MoviesPage} />
               <Route path="/movie/:id" component={MoviePage} />
             </div>
-          </AuthContextHOC.Provider>
-        </UserContextHOC.Provider>
+          </AuthContext.Provider>
+        </UserContext.Provider>
       </BrowserRouter>
     );
   }

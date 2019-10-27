@@ -1,8 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import CallApi from "../../../api/api";
-import Image from "../../UIComponents/Image";
-import Loader from "../../UIComponents/Loader";
+import CallApi from "../../../../api/api";
+import Image from "../../../UIComponents/Image";
+import Loader from "../../../UIComponents/Loader";
 
 class MovieActors extends React.Component {
   constructor() {
@@ -37,7 +37,8 @@ class MovieActors extends React.Component {
             <Image
               key={item.id}
               className="pr-1 pb-1"
-              imagePath={item.profile_path}
+              alt=""
+              path={item.profile_path}
               width="150px"
               height="200px"
             />

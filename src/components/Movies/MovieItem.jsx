@@ -11,7 +11,8 @@ class MovieItem extends React.PureComponent {
       <div className="card" style={{ width: "100%" }}>
         <Image
           className="card-img-top card-img--height"
-          imagePath={item.backdrop_path || item.poster_path}
+          alt=""
+          path={item.backdrop_path || item.poster_path}
         />
         <div className="card-body">
           <Link className="card-title" to={`/movie/${item.id}/details`}>

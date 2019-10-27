@@ -1,13 +1,13 @@
 import React from "react";
-import { UserContextHOC } from "../App";
+import { UserContext } from "../App";
 
 export default Component =>
   class withUser extends React.Component {
     render() {
       return (
-        <UserContextHOC.Consumer>
+        <UserContext.Consumer>
           {context => <Component {...this.props} {...context} />}
-        </UserContextHOC.Consumer>
+        </UserContext.Consumer>
       );
     }
   };

@@ -1,7 +1,7 @@
 import React from "react";
-import CallApi from "../../../api/api";
+import CallApi from "../../../../api/api";
 import { withRouter } from "react-router-dom";
-import Loader from "../../UIComponents/Loader";
+import Loader from "../../../UIComponents/Loader";
 
 class MovieVideos extends React.Component {
   constructor() {

@@ -47,20 +47,14 @@ class LoginForm extends React.Component {
         }
       }));
     }
-    console.log("on blur");
   };
 
   onSubmit = () => {
     const {
       values: { username, password }
     } = this.state;
-    const {
-      updateUser,
-      updateSessionId,
-      getFavoriteList,
-      getWatchList,
-      getUser
-    } = this.props;
+    const { updateAuth, getFavoriteList, getWatchList, getUser } = this.props;
+    let session_id = null;
     this.setState({
       submitting: true
     });
@@ -82,8 +76,8 @@ class LoginForm extends React.Component {
         });
       })
       .then(data => {
-        updateSessionId(data.session_id);
-        return getUser(data.session_id);
+        session_id = data.session_id;
+        return getUser(session_id);
       })
       .then(user => {
         this.setState(
@@ -91,7 +85,7 @@ class LoginForm extends React.Component {
             submitting: false
           },
           () => {
-            updateUser(user);
+            updateAuth(user, session_id);
           }
         );
       })
@@ -102,7 +96,6 @@ class LoginForm extends React.Component {
         getWatchList();
       })
       .catch(error => {
-        console.log("error", error);
         this.setState({
           submitting: false,
           errors: {
@@ -189,4 +182,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withUser(withAuth(LoginForm));
+export default withUser(LoginForm);

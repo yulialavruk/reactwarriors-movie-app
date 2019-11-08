@@ -25,19 +25,14 @@ export default class App extends React.Component {
     this.state = { ...this.initialState };
   }
 
-  updateUser = user => {
-    this.setState({
-      user
-    });
-  };
-
-  updateSessionId = session_id => {
+  updateAuth = (user, session_id) => {
     cookies.set("session_id", session_id, {
       path: "/",
       maxAge: 2592000
     });
     this.setState({
-      session_id
+      session_id,
+      user
     });
   };
 
@@ -101,8 +96,7 @@ export default class App extends React.Component {
     const session_id = cookies.get("session_id");
     if (session_id) {
       this.getUser(session_id).then(user => {
-        this.updateUser(user);
-        this.updateSessionId(session_id);
+        this.updateAuth(user, session_id);
         this.getFavoriteList();
         this.getWatchList();
       });
@@ -122,7 +116,7 @@ export default class App extends React.Component {
         <UserContext.Provider
           value={{
             user,
-            updateUser: this.updateUser,
+            updateAuth: this.updateAuth,
             getUser: this.getUser,
             favorite_movies,
             getFavoriteList: this.getFavoriteList,
@@ -133,7 +127,6 @@ export default class App extends React.Component {
           <AuthContext.Provider
             value={{
               session_id,
-              updateSessionId: this.updateSessionId,
               handleLogOut: this.handleLogOut,
               showLoginModal,
               toggleLoginModal: this.toggleLoginModal

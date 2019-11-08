@@ -18,10 +18,8 @@ const initialState = {
 };
 
 const reducerApp = (state = initialState, action) => {
-  console.log("reducer", state, action);
   switch (action.type) {
     case "UPDATE_AUTH":
-      console.log("yo");
       return {
         ...state,
         user: action.payload.user,
@@ -33,8 +31,11 @@ const reducerApp = (state = initialState, action) => {
 };
 
 const store = createStore(reducerApp);
-console.log(store);
-console.log(store.getState());
+
+store.subscribe(() => {
+  console.log("change", store.getState());
+});
+
 store.dispatch(
   actionCreatorUpdateAuth({
     user: {
@@ -43,6 +44,5 @@ store.dispatch(
     session_id: "text"
   })
 );
-console.log(store.getState());
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App store={store} />, document.getElementById("root"));

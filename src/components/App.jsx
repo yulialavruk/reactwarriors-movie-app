@@ -3,84 +3,64 @@ import Header from "./Header/Header";
 import CallApi from "../api/api";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
-import Cookies from "universal-cookie";
 import { BrowserRouter, Route } from "react-router-dom";
-
-const cookies = new Cookies();
+import {
+  actionCreatorUpdateAuth,
+  actionCreatorLogOut,
+  actionCreatorShowLoginModal,
+  actionCreatorFavoriteList,
+  actionCreatorWatchList
+} from "../actions/actions";
 
 export const UserContext = React.createContext();
 export const AuthContext = React.createContext();
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-
-    this.initialState = {
-      user: null,
-      session_id: null,
-      showLoginModal: false,
-      favorite_movies: [],
-      watchlist: []
-    };
-    this.state = { ...this.initialState };
-  }
-
   updateAuth = (user, session_id) => {
-    cookies.set("session_id", session_id, {
-      path: "/",
-      maxAge: 2592000
-    });
-    this.setState({
-      session_id,
-      user
-    });
+    this.props.store.dispatch(
+      actionCreatorUpdateAuth({
+        user,
+        session_id
+      })
+    );
   };
 
   toggleLoginModal = () => {
-    this.setState(prevState => ({
-      showLoginModal: !prevState.showLoginModal
-    }));
+    this.props.store.dispatch(actionCreatorShowLoginModal());
   };
 
   handleLogOut = () => {
-    const { session_id } = this.state;
+    const { session_id } = this.props.store.getState();
     CallApi.delete("/authentication/session", {
       body: {
         session_id
       }
     }).then(() => {
-      this.onLogOut();
+      this.props.store.dispatch(actionCreatorLogOut());
     });
   };
 
-  onLogOut = () => {
-    cookies.remove("session_id");
-    this.setState({ ...this.initialState });
-  };
-
   getFavoriteList = () => {
-    const { session_id } = this.state;
-    return CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+    const { session_id, user } = this.props.store.getState();
+    return CallApi.get(`/account/${user.id}/favorite/movies`, {
       params: {
         session_id
       }
     }).then(data => {
-      this.setState({
-        favorite_movies: data.results
-      });
+      let favorite_movies = data.results;
+      this.props.store.dispatch(actionCreatorFavoriteList({ favorite_movies }));
     });
   };
 
   getWatchList = () => {
-    const { session_id } = this.state;
-    return CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+    const { session_id, user } = this.props.store.getState();
+    return CallApi.get(`/account/${user.id}/watchlist/movies`, {
       params: {
         session_id
       }
     }).then(data => {
-      this.setState({
-        watchlist: data.results
-      });
+      let watchlist = data.results;
+      this.props.store.dispatch(actionCreatorWatchList({ watchlist }));
     });
   };
 
@@ -93,7 +73,11 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    const session_id = cookies.get("session_id");
+    this.props.store.subscribe(() => {
+      console.log("change", this.props.store.getState());
+      this.forceUpdate();
+    });
+    const { session_id } = this.props.store.getState();
     if (session_id) {
       this.getUser(session_id).then(user => {
         this.updateAuth(user, session_id);
@@ -110,7 +94,7 @@ export default class App extends React.Component {
       watchlist,
       showLoginModal,
       favorite_movies
-    } = this.state;
+    } = this.props.store.getState();
     return (
       <BrowserRouter>
         <UserContext.Provider

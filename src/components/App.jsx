@@ -4,6 +4,7 @@ import CallApi from "../api/api";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import { BrowserRouter, Route } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   actionCreatorUpdateAuth,
   actionCreatorLogOut,
@@ -15,52 +16,39 @@ import {
 export const UserContext = React.createContext();
 export const AuthContext = React.createContext();
 
-export default class App extends React.Component {
-  updateAuth = (user, session_id) => {
-    this.props.store.dispatch(
-      actionCreatorUpdateAuth({
-        user,
-        session_id
-      })
-    );
-  };
-
-  toggleLoginModal = () => {
-    this.props.store.dispatch(actionCreatorShowLoginModal());
-  };
-
+class App extends React.Component {
   handleLogOut = () => {
-    const { session_id } = this.props.store.getState();
+    const { session_id } = this.props;
     CallApi.delete("/authentication/session", {
       body: {
         session_id
       }
     }).then(() => {
-      this.props.store.dispatch(actionCreatorLogOut());
+      this.props.onLogOut();
     });
   };
 
   getFavoriteList = () => {
-    const { session_id, user } = this.props.store.getState();
+    const { session_id, user } = this.props;
     return CallApi.get(`/account/${user.id}/favorite/movies`, {
       params: {
         session_id
       }
     }).then(data => {
       let favorite_movies = data.results;
-      this.props.store.dispatch(actionCreatorFavoriteList({ favorite_movies }));
+      this.props.updateFavoriteList(favorite_movies);
     });
   };
 
   getWatchList = () => {
-    const { session_id, user } = this.props.store.getState();
+    const { session_id, user } = this.props;
     return CallApi.get(`/account/${user.id}/watchlist/movies`, {
       params: {
         session_id
       }
     }).then(data => {
       let watchlist = data.results;
-      this.props.store.dispatch(actionCreatorWatchList({ watchlist }));
+      this.props.updateWatchList(watchlist);
     });
   };
 
@@ -73,14 +61,10 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    this.props.store.subscribe(() => {
-      console.log("change", this.props.store.getState());
-      this.forceUpdate();
-    });
-    const { session_id } = this.props.store.getState();
+    const { session_id } = this.props;
     if (session_id) {
       this.getUser(session_id).then(user => {
-        this.updateAuth(user, session_id);
+        this.props.updateAuth(user, session_id);
         this.getFavoriteList();
         this.getWatchList();
       });
@@ -88,19 +72,22 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const {
       user,
       session_id,
       watchlist,
       showLoginModal,
-      favorite_movies
-    } = this.props.store.getState();
+      favorite_movies,
+      updateAuth,
+      toggleLoginModal
+    } = this.props;
     return (
       <BrowserRouter>
         <UserContext.Provider
           value={{
             user,
-            updateAuth: this.updateAuth,
+            updateAuth,
             getUser: this.getUser,
             favorite_movies,
             getFavoriteList: this.getFavoriteList,
@@ -113,7 +100,7 @@ export default class App extends React.Component {
               session_id,
               handleLogOut: this.handleLogOut,
               showLoginModal,
-              toggleLoginModal: this.toggleLoginModal
+              toggleLoginModal
             }}
           >
             <div>
@@ -127,3 +114,36 @@ export default class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    session_id: state.session_id,
+    showLoginModal: state.showLoginModal,
+    favorite_movies: state.favorite_movies,
+    watchlist: state.watchlist
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateAuth: (user, session_id) =>
+      dispatch(
+        actionCreatorUpdateAuth({
+          user,
+          session_id
+        })
+      ),
+    toggleLoginModal: () => dispatch(actionCreatorShowLoginModal()),
+    updateFavoriteList: favorite_movies =>
+      dispatch(actionCreatorFavoriteList({ favorite_movies })),
+    updateWatchList: watchlist =>
+      dispatch(actionCreatorWatchList({ watchlist })),
+    onLogOut: () => dispatch(actionCreatorLogOut())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

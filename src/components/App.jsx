@@ -117,11 +117,11 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
-    session_id: state.session_id,
-    showLoginModal: state.showLoginModal,
-    favorite_movies: state.favorite_movies,
-    watchlist: state.watchlist
+    user: state.auth.user,
+    session_id: state.auth.session_id,
+    showLoginModal: state.auth.showLoginModal,
+    favorite_movies: state.movies.favorite_movies,
+    watchlist: state.movies.watchlist
   };
 };
 

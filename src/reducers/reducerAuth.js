@@ -5,12 +5,10 @@ const cookies = new Cookies();
 const initialState = {
   user: null,
   session_id: cookies.get("session_id"),
-  showLoginModal: false,
-  favorite_movies: [],
-  watchlist: []
+  showLoginModal: false
 };
 
-const reducerApp = (state = initialState, action) => {
+const reducerAuth = (state = initialState, action) => {
   switch (action.type) {
     case "UPDATE_AUTH":
       cookies.set("session_id", action.payload.session_id, {
@@ -32,19 +30,9 @@ const reducerApp = (state = initialState, action) => {
         ...state,
         showLoginModal: true
       };
-    case "FAVORITEMOVIES":
-      return {
-        ...state,
-        favorite_movies: action.payload.favorite_movies
-      };
-    case "WATCHMOVIES":
-      return {
-        ...state,
-        watchlist: action.payload.watchlist
-      };
     default:
       return state;
   }
 };
 
-export default reducerApp;
+export default reducerAuth;

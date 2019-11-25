@@ -105,8 +105,8 @@ class App extends React.Component {
           >
             <div>
               <Header />
-              {/* <Route exact path="/" component={MoviesPage} />
-              <Route path="/movie/:id" component={MoviePage} /> */}
+              <Route exact path="/" component={MoviesPage} />
+              <Route path="/movie/:id" component={MoviePage} />
             </div>
           </AuthContext.Provider>
         </UserContext.Provider>

@@ -2,9 +2,9 @@ import { combineReducers } from "redux";
 import reducerAuth from "./reducerAuth";
 import reducerMovies from "./reducerMovies";
 
-const reducer = combineReducers({
+const reducers = combineReducers({
   auth: reducerAuth,
   movies: reducerMovies
 });
 
-export default reducer;
+export default reducers;

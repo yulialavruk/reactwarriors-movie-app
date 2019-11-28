@@ -20,6 +20,16 @@ const reducerAuth = (state = initialState, action) => {
         user: action.payload.user,
         session_id: action.payload.session_id
       };
+    case "GET_USER":
+      cookies.set("session_id", action.payload.session_id, {
+        path: "/",
+        maxAge: 2592000
+      });
+      return {
+        ...state,
+        user: action.payload.user,
+        session_id: action.payload.session_id
+      };
     case "LOGOUT":
       cookies.remove("session_id");
       return {

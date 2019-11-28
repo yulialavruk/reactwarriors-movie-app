@@ -10,7 +10,8 @@ import {
   actionCreatorLogOut,
   actionCreatorShowLoginModal,
   actionCreatorFavoriteList,
-  actionCreatorWatchList
+  actionCreatorWatchList,
+  actionCreatorGetUser
 } from "../actions/actions";
 
 export const UserContext = React.createContext();
@@ -63,11 +64,11 @@ class App extends React.Component {
   componentDidMount() {
     const { session_id } = this.props;
     if (session_id) {
-      this.getUser(session_id).then(user => {
-        this.props.updateAuth(user, session_id);
-        this.getFavoriteList();
-        this.getWatchList();
-      });
+      this.props.getUser(session_id);
+      // .then(() => {
+      //   this.getFavoriteList();
+      //   this.getWatchList();
+      // });
     }
   }
 
@@ -127,6 +128,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    dispatch: dispatch,
     updateAuth: (user, session_id) =>
       dispatch(
         actionCreatorUpdateAuth({
@@ -134,6 +136,7 @@ const mapDispatchToProps = dispatch => {
           session_id
         })
       ),
+    getUser: session_id => actionCreatorGetUser(session_id),
     toggleLoginModal: () => dispatch(actionCreatorShowLoginModal()),
     updateFavoriteList: favorite_movies =>
       dispatch(actionCreatorFavoriteList({ favorite_movies })),

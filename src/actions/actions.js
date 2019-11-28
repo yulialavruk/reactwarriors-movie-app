@@ -1,7 +1,28 @@
+import CallApi from "../api/api";
+
 export const actionCreatorUpdateAuth = payload => {
   return {
     type: "UPDATE_AUTH",
     payload
+  };
+};
+
+export const actionCreatorGetUser = session_id => {
+  console.log("yo");
+  return dispatch => {
+    CallApi.get("/account", {
+      params: {
+        session_id
+      }
+    }).then(user => {
+      dispatch({
+        type: "GET_USER",
+        payload: {
+          user,
+          session_id
+        }
+      });
+    });
   };
 };
 

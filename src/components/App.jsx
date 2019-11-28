@@ -1,16 +1,14 @@
 import React from "react";
 import Header from "./Header/Header";
-import CallApi from "../api/api";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  actionCreatorUpdateAuth,
-  actionCreatorLogOut,
-  actionCreatorShowLoginModal,
-  actionCreatorFavoriteList,
-  actionCreatorWatchList,
+  actionCreatorOnLogOut,
+  actionCreatorToggleLoginModal,
+  actionCreatorGetFavoriteList,
+  actionCreatorGetWatchList,
   actionCreatorGetUser
 } from "../actions/actions";
 
@@ -18,52 +16,10 @@ export const UserContext = React.createContext();
 export const AuthContext = React.createContext();
 
 class App extends React.Component {
-  handleLogOut = () => {
-    const { session_id } = this.props;
-    CallApi.delete("/authentication/session", {
-      body: {
-        session_id
-      }
-    }).then(() => {
-      this.props.onLogOut();
-    });
-  };
-
-  getFavoriteList = () => {
-    const { session_id, user } = this.props;
-    return CallApi.get(`/account/${user.id}/favorite/movies`, {
-      params: {
-        session_id
-      }
-    }).then(data => {
-      let favorite_movies = data.results;
-      this.props.updateFavoriteList(favorite_movies);
-    });
-  };
-
-  getWatchList = () => {
-    const { session_id, user } = this.props;
-    return CallApi.get(`/account/${user.id}/watchlist/movies`, {
-      params: {
-        session_id
-      }
-    }).then(data => {
-      let watchlist = data.results;
-      this.props.updateWatchList(watchlist);
-    });
-  };
-
-  getUser = session_id => {
-    return CallApi.get("/account", {
-      params: {
-        session_id
-      }
-    });
-  };
-
   componentDidMount() {
     const { session_id } = this.props;
     if (session_id) {
+      console.log("yo");
       this.props.getUser(session_id);
       // .then(() => {
       //   this.getFavoriteList();
@@ -80,26 +36,28 @@ class App extends React.Component {
       watchlist,
       showLoginModal,
       favorite_movies,
-      updateAuth,
-      toggleLoginModal
+      toggleLoginModal,
+      getUser,
+      onLogOut,
+      getFavoriteList,
+      getWatchList
     } = this.props;
     return (
       <BrowserRouter>
         <UserContext.Provider
           value={{
             user,
-            updateAuth,
-            getUser: this.getUser,
+            getUser,
             favorite_movies,
-            getFavoriteList: this.getFavoriteList,
+            getFavoriteList,
             watchlist,
-            getWatchList: this.getWatchList
+            getWatchList
           }}
         >
           <AuthContext.Provider
             value={{
               session_id,
-              handleLogOut: this.handleLogOut,
+              onLogOut,
               showLoginModal,
               toggleLoginModal
             }}
@@ -129,20 +87,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatch: dispatch,
-    updateAuth: (user, session_id) =>
-      dispatch(
-        actionCreatorUpdateAuth({
-          user,
-          session_id
-        })
-      ),
-    getUser: session_id => actionCreatorGetUser(session_id),
-    toggleLoginModal: () => dispatch(actionCreatorShowLoginModal()),
-    updateFavoriteList: favorite_movies =>
-      dispatch(actionCreatorFavoriteList({ favorite_movies })),
-    updateWatchList: watchlist =>
-      dispatch(actionCreatorWatchList({ watchlist })),
-    onLogOut: () => dispatch(actionCreatorLogOut())
+    getUser: session_id => dispatch(actionCreatorGetUser(session_id)),
+    toggleLoginModal: () => dispatch(actionCreatorToggleLoginModal()),
+    getFavoriteList: (session_id, user_id) =>
+      dispatch(actionCreatorGetFavoriteList(session_id, user_id)),
+    getWatchList: (session_id, user_id) =>
+      dispatch(actionCreatorGetWatchList(session_id, user_id)),
+    onLogOut: session_id => dispatch(actionCreatorOnLogOut(session_id))
   };
 };
 

@@ -38,7 +38,7 @@ class Favorite extends React.PureComponent {
               favorite: !this.getCurrentFavorite(favorite_movies, movieId)
             }
           }).then(() => {
-            getFavoriteList().then(() => {
+            getFavoriteList(session_id, user.id).then(() => {
               this.setState({
                 isLoading: false
               });

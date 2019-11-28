@@ -38,7 +38,7 @@ class WillWatch extends React.PureComponent {
               watchlist: !this.getCurrentWatchList(watchlist, movieId)
             }
           }).then(() => {
-            getWatchList().then(() => {
+            getWatchList(session_id, user.id).then(() => {
               this.setState({
                 isLoading: false
               });

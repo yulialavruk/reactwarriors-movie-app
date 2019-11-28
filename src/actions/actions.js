@@ -1,14 +1,6 @@
 import CallApi from "../api/api";
 
-export const actionCreatorUpdateAuth = payload => {
-  return {
-    type: "UPDATE_AUTH",
-    payload
-  };
-};
-
 export const actionCreatorGetUser = session_id => {
-  console.log("yo");
   return dispatch => {
     CallApi.get("/account", {
       params: {
@@ -26,28 +18,58 @@ export const actionCreatorGetUser = session_id => {
   };
 };
 
-export const actionCreatorLogOut = () => {
-  return {
-    type: "LOGOUT"
+export const actionCreatorOnLogOut = session_id => {
+  return dispatch => {
+    CallApi.delete("/authentication/session", {
+      body: {
+        session_id
+      }
+    }).then(() => {
+      dispatch({
+        type: "LOG_OUT"
+      });
+    });
   };
 };
 
-export const actionCreatorShowLoginModal = () => {
+export const actionCreatorToggleLoginModal = () => {
   return {
-    type: "LOGINMODAL"
+    type: "TOGGLE_LOGIN_MODAL"
   };
 };
 
-export const actionCreatorFavoriteList = payload => {
-  return {
-    type: "FAVORITEMOVIES",
-    payload
+export const actionCreatorGetFavoriteList = (session_id, user_id) => {
+  return dispatch => {
+    CallApi.get(`/account/${user_id}/favorite/movies`, {
+      params: {
+        session_id
+      }
+    }).then(data => {
+      let favorite_movies = data.results;
+      dispatch({
+        type: "FAVORITE_MOVIES",
+        payload: {
+          favorite_movies
+        }
+      });
+    });
   };
 };
 
-export const actionCreatorWatchList = payload => {
-  return {
-    type: "WATCHMOVIES",
-    payload
+export const actionCreatorGetWatchList = (session_id, user_id) => {
+  return dispatch => {
+    return CallApi.get(`/account/${user_id}/watchlist/movies`, {
+      params: {
+        session_id
+      }
+    }).then(data => {
+      let watchlist = data.results;
+      dispatch({
+        type: "WATCHMOVIES",
+        payload: {
+          watchlist
+        }
+      });
+    });
   };
 };

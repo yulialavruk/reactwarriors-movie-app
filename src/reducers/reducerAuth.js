@@ -10,16 +10,6 @@ const initialState = {
 
 const reducerAuth = (state = initialState, action) => {
   switch (action.type) {
-    case "UPDATE_AUTH":
-      cookies.set("session_id", action.payload.session_id, {
-        path: "/",
-        maxAge: 2592000
-      });
-      return {
-        ...state,
-        user: action.payload.user,
-        session_id: action.payload.session_id
-      };
     case "GET_USER":
       cookies.set("session_id", action.payload.session_id, {
         path: "/",
@@ -30,12 +20,12 @@ const reducerAuth = (state = initialState, action) => {
         user: action.payload.user,
         session_id: action.payload.session_id
       };
-    case "LOGOUT":
+    case "LOG_OUT":
       cookies.remove("session_id");
       return {
         initialState
       };
-    case "LOGINMODAL":
+    case "TOGGLE_LOGIN_MODAL":
       return {
         ...state,
         showLoginModal: true

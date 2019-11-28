@@ -5,12 +5,12 @@ const initialState = {
 
 const reducerMovies = (state = initialState, action) => {
   switch (action.type) {
-    case "FAVORITEMOVIES":
+    case "FAVORITE_MOVIES":
       return {
         ...state,
         favorite_movies: action.payload.favorite_movies
       };
-    case "WATCHMOVIES":
+    case "WATCH_MOVIES":
       return {
         ...state,
         watchlist: action.payload.watchlist

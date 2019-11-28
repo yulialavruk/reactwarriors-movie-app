@@ -52,7 +52,7 @@ class LoginForm extends React.Component {
     const {
       values: { username, password }
     } = this.state;
-    const { updateAuth, getFavoriteList, getWatchList, getUser } = this.props;
+    const { getFavoriteList, getWatchList, getUser } = this.props;
     let session_id = null;
     this.setState({
       submitting: true
@@ -76,24 +76,21 @@ class LoginForm extends React.Component {
       })
       .then(data => {
         session_id = data.session_id;
-        return getUser(session_id);
-      })
-      .then(user => {
         this.setState(
           {
             submitting: false
           },
           () => {
-            updateAuth(user, session_id);
+            getUser(session_id);
           }
         );
       })
-      .then(() => {
-        getFavoriteList();
-      })
-      .then(() => {
-        getWatchList();
-      })
+      // .then(() => {
+      //   getFavoriteList(session_id, user.id);
+      // })
+      // .then(() => {
+      //   getWatchList(session_id, user.id);
+      // })
       .catch(error => {
         this.setState({
           submitting: false,

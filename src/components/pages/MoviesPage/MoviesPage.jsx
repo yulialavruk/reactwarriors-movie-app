@@ -8,7 +8,7 @@ export default class MoviesPage extends React.Component {
 
     this.initialState = {
       filters: {
-        sort_by: "vote_average.desc",
+        sort_by: "popularity.desc",
         primary_release_year: "",
         with_genres: []
       },

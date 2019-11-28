@@ -25,7 +25,7 @@ class UserMenu extends React.Component {
 
   render() {
     const { dropdownOpen } = this.state;
-    const { user, handleLogOut } = this.props;
+    const { user, onLogOut, session_id } = this.props;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggleDropdown}>
         <DropdownToggle
@@ -43,7 +43,13 @@ class UserMenu extends React.Component {
           />
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem onClick={handleLogOut}>Выйти</DropdownItem>
+          <DropdownItem
+            onClick={() => {
+              onLogOut(session_id);
+            }}
+          >
+            Выйти
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );

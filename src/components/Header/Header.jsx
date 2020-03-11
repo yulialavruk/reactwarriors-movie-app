@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Login from "./Login/Login";
 import UserMenu from "./UserMenu";
 import withUser from "../HOC/withUser";
@@ -11,9 +12,9 @@ class Header extends React.Component {
         <div className="container">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <a href="/#" className="nav-link">
+              <Link to="/" className="nav-link">
                 Home
-              </a>
+              </Link>
             </li>
           </ul>
           {user ? <UserMenu /> : <Login />}

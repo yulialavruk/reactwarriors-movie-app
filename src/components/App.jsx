@@ -3,7 +3,7 @@ import Header from "./Header/Header";
 import CallApi from "../api/api";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
-import { HashRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   actionCreatorUpdateAuth,
@@ -72,7 +72,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const {
       user,
       session_id,
@@ -83,7 +82,7 @@ class App extends React.Component {
       toggleLoginModal
     } = this.props;
     return (
-      <HashRouter>
+      <BrowserRouter basename="/reactwarriors-movie-app">
         <UserContext.Provider
           value={{
             user,
@@ -110,7 +109,7 @@ class App extends React.Component {
             </div>
           </AuthContext.Provider>
         </UserContext.Provider>
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }

@@ -16,7 +16,7 @@ export default class Filters extends React.Component {
     return (
       <form className="mb-3">
         <div>
-          <button type="button" className="btn btn-light" onClick={onReset}>
+          <button type="button" className="btn clear-btn" onClick={onReset}>
             Очистить фильтры
           </button>
         </div>

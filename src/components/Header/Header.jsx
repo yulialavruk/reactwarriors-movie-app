@@ -8,12 +8,12 @@ class Header extends React.Component {
   render() {
     const { user } = this.props;
     return (
-      <nav className="navbar navbar-dark bg-primary">
+      <nav className="navbar">
         <div className="container">
           <ul className="navbar-nav">
             <li className="nav-item active">
               <Link to="/" className="nav-link">
-                Home
+                <span>the movie db</span>
               </Link>
             </li>
           </ul>

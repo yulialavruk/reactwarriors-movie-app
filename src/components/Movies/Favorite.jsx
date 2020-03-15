@@ -61,7 +61,7 @@ class Favorite extends React.PureComponent {
     //console.log(isFavorite);
     return (
       <div
-        className="d-inline-flex"
+        className="d-inline-flex mark-favorite"
         onClick={this.markAsFavorite}
         style={{ pointerEvents: isLoading ? "none" : "auto" }}
       >

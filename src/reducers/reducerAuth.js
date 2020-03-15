@@ -28,7 +28,7 @@ const reducerAuth = (state = initialState, action) => {
     case "LOGINMODAL":
       return {
         ...state,
-        showLoginModal: true
+        showLoginModal: !state.showLoginModal
       };
     default:
       return state;

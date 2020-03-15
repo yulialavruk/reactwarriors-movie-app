@@ -61,7 +61,7 @@ class WillWatch extends React.PureComponent {
     //console.log(isWillWatch);
     return (
       <div
-        className="d-inline-flex"
+        className="d-inline-flex mark-watch"
         onClick={this.addToWatchList}
         style={{ pointerEvents: isLoading ? "none" : "auto" }}
       >

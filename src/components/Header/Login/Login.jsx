@@ -8,13 +8,15 @@ class Login extends React.Component {
     const { showLoginModal, toggleLoginModal } = this.props;
     return (
       <div>
-        <button
-          className="btn btn-success"
-          type="button"
-          onClick={toggleLoginModal}
+        <div className="btn login-btn" onClick={toggleLoginModal}>
+          Войти
+        </div>
+        {/* <a
+          className="btn login-btn"
+          href="https://www.themoviedb.org/account/signup"
         >
-          Login
-        </button>
+          Регистрация
+        </a> */}
         <Modal isOpen={showLoginModal} toggle={toggleLoginModal}>
           <ModalBody>
             <LoginForm />

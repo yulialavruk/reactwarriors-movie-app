@@ -31,19 +31,20 @@ class MovieActors extends React.Component {
     return isLoading ? (
       <Loader />
     ) : (
-      movieActors.cast.map(
-        item =>
-          item.profile_path && (
-            <Image
-              key={item.id}
-              className="pr-1 pb-1"
-              alt=""
-              path={item.profile_path}
-              width="150px"
-              height="200px"
-            />
-          )
-      )
+      <div className="row movie-actors">
+        {movieActors.cast.map(
+          item =>
+            item.profile_path && (
+              <div key={item.id} className="col-3 movie-actors__item">
+                <Image alt="" path={item.profile_path} />
+                <div className="movie-actors__name">
+                  <h3>{item.name}</h3>
+                  <span>{item.character}</span>
+                </div>
+              </div>
+            )
+        )}
+      </div>
     );
   }
 }

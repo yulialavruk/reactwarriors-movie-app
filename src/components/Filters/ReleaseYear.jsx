@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const getYear = () => {
   const options = [];
-  for (let i = 2019; i >= 2000; i--) {
+  for (let i = 2020; i >= 2000; i--) {
     options.push(i);
   }
   return options;

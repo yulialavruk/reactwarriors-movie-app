@@ -1,9 +1,6 @@
 import React from "react";
 import { Table } from "reactstrap";
 
-// const getValues = values => {
-//   values.map(item => item.name);
-// };
 export default class MovieDetail extends React.Component {
   static defaultProps = {
     movieDetails: {
@@ -54,7 +51,6 @@ export default class MovieDetail extends React.Component {
       }
     ];
 
-    //console.log(movieDetails);
     return (
       <Table>
         <tbody>

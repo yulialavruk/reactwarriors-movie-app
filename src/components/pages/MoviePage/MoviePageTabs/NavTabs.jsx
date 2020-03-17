@@ -17,9 +17,9 @@ const tabs = [
 ];
 
 const NavTabs = ({ match }) => (
-  <ul className="nav nav-tabs">
+  <ul className="nav nav-tabs movie-tabs">
     {tabs.map((item, index) => (
-      <li className="nav-item" key={index}>
+      <li className="nav-item movie-tabs__item" key={index}>
         <NavLink to={`${match.url}/${item.path}`} className="nav-link">
           {item.link}
         </NavLink>

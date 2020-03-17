@@ -31,27 +31,32 @@ export default class MoviePage extends React.Component {
 
   render() {
     const { movieDetails, isLoading } = this.state;
-    return (
-      <div className="container">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <React.Fragment>
-            <div className="row justify-content-center mt-4">
-              <div className="col-3">
+    const imgUrl = `https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`;
+    return isLoading ? (
+      <Loader />
+    ) : (
+      <React.Fragment>
+        <section
+          className="movie-overview"
+          style={{ backgroundImage: `url(${imgUrl})` }}
+        >
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-4">
                 <Image path={movieDetails.poster_path} width="100%" alt="" />
               </div>
               <div className="col-6">
                 <MovieOverview
                   title={movieDetails.title}
                   overview={movieDetails.overview}
+                  vote_average={movieDetails.vote_average}
                 />
               </div>
             </div>
-            <MoviePageTabs movieDetails={movieDetails} />
-          </React.Fragment>
-        )}
-      </div>
+          </div>
+        </section>
+        <MoviePageTabs movieDetails={movieDetails} />
+      </React.Fragment>
     );
   }
 }

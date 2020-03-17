@@ -55,8 +55,8 @@ export default class MoviesPage extends React.Component {
         <div className="row mt-4">
           <div className="col-3">
             <div className="card">
-              <div className="card-body">
-                <h3>Фильтры:</h3>
+              <div className="card-body filters">
+                <h3 className="filters__title">Фильтры:</h3>
                 <Filters
                   filters={filters}
                   pagination={pagination}

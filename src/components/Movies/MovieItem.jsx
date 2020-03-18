@@ -3,14 +3,11 @@ import Favorite from "./Favorite";
 import WillWatch from "./WillWatch";
 import { Link } from "react-router-dom";
 import Image from "../UIComponents/Image";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import Progressbar from "../UIComponents/Progressbar";
 
 class MovieItem extends React.PureComponent {
   render() {
     const { item } = this.props;
-    const percentage = item.vote_average * 10;
-    const color = percentage > 70 ? "#21D07A" : "#D0D331";
     return (
       <div className="card ">
         <div className="card-body card-movie">
@@ -25,18 +22,7 @@ class MovieItem extends React.PureComponent {
           </div>
           <div className="card-movie__description">
             <div className="card-movie__icons">
-              <CircularProgressbar
-                value={percentage}
-                text={`${percentage}%`}
-                background
-                backgroundPadding={6}
-                styles={buildStyles({
-                  backgroundColor: "#081c24",
-                  textColor: "#fff",
-                  pathColor: color,
-                  trailColor: "transparent"
-                })}
-              />
+              <Progressbar vote_average={item.vote_average} />
               <Favorite movieId={item.id} />
               <WillWatch movieId={item.id} />
             </div>

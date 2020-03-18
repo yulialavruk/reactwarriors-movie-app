@@ -50,6 +50,7 @@ export default class MoviePage extends React.Component {
                   title={movieDetails.title}
                   overview={movieDetails.overview}
                   vote_average={movieDetails.vote_average}
+                  movieId={movieDetails.id}
                 />
               </div>
             </div>

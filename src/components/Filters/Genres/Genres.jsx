@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import GenresHOC from "./GenresHOC";
 
 const Genres = ({ genres, with_genres, onChangeGenres }) => (
-  <div className="filters__form-genres">
-    <div>Выберите жанр:</div>
+  <div className="filters__form-genres genres">
+    <div className="genres__choice">Выберите жанр:</div>
     {genres.map(genre => (
       <div className="form-check" key={genre.id}>
         <input

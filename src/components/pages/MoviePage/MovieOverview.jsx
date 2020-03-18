@@ -1,30 +1,16 @@
 import React from "react";
-import { StarBorder } from "@material-ui/icons";
-import { BookmarkBorder } from "@material-ui/icons";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import Favorite from "../../Movies/Favorite";
+import WillWatch from "../../Movies/WillWatch";
+import Progressbar from "../../UIComponents/Progressbar";
 
-const MovieOverview = ({ title, overview, vote_average }) => {
-  const percentage = vote_average * 10;
-  const color = percentage > 70 ? "#21D07A" : "#D0D331";
+const MovieOverview = ({ title, overview, vote_average, movieId }) => {
   return (
     <React.Fragment>
       <h1>{title}</h1>
-      <div className="mb-3">
-        <CircularProgressbar
-          value={percentage}
-          text={`${percentage}%`}
-          background
-          backgroundPadding={6}
-          styles={buildStyles({
-            backgroundColor: "#081c24",
-            textColor: "#fff",
-            pathColor: color,
-            trailColor: "transparent"
-          })}
-        />
-        <StarBorder />
-        <BookmarkBorder />
+      <div className="movie-overwiew__mark">
+        <Progressbar vote_average={vote_average} />
+        <Favorite movieId={movieId} />
+        <WillWatch movieId={movieId} />
       </div>
       <p>{overview}</p>
     </React.Fragment>

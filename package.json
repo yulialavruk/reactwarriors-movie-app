@@ -12,7 +12,6 @@
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "query-string": "^6.8.2",
-    "rc-progress": "^2.5.2",
     "react": "^16.8.6",
     "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.8.6",

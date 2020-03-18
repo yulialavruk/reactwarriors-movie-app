@@ -194,8 +194,7 @@ input.invalid {
 }
 .genres {
   .form-check {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: 2px 0;
   }
   &__choice {
     margin: 10px 0;
@@ -227,10 +226,6 @@ input.invalid {
     label {
       font-weight: 600;
     }
-    // h1 {
-    //   font-size: 20px;
-    //   font-weight: 900;
-    // }
   }
   .btn {
     background-color: $bg-color;
@@ -239,4 +234,48 @@ input.invalid {
       color: $green;
     }
   }
+}
+
+//checkbox
+
+.form-check input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.form-check label {
+  position: relative;
+  cursor: pointer;
+}
+
+.form-check label:before {
+  content: "";
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 1.5px solid rgba($bg-color, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.form-check input:checked + label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  width: 6px;
+  height: 14px;
+  border: solid $green;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }

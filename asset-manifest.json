@@ -1,25 +1,26 @@
 {
   "files": {
-    "main.css": "/reactwarriors-movie-app/static/css/main.3b8de985.chunk.css",
-    "main.js": "/reactwarriors-movie-app/static/js/main.105d3f56.chunk.js",
-    "main.js.map": "/reactwarriors-movie-app/static/js/main.105d3f56.chunk.js.map",
+    "main.css": "/reactwarriors-movie-app/static/css/main.dae2e4fe.chunk.css",
+    "main.js": "/reactwarriors-movie-app/static/js/main.b8d49fd4.chunk.js",
+    "main.js.map": "/reactwarriors-movie-app/static/js/main.b8d49fd4.chunk.js.map",
     "runtime-main.js": "/reactwarriors-movie-app/static/js/runtime-main.535f6361.js",
     "runtime-main.js.map": "/reactwarriors-movie-app/static/js/runtime-main.535f6361.js.map",
-    "static/css/2.f93178fb.chunk.css": "/reactwarriors-movie-app/static/css/2.f93178fb.chunk.css",
-    "static/js/2.c824f99f.chunk.js": "/reactwarriors-movie-app/static/js/2.c824f99f.chunk.js",
-    "static/js/2.c824f99f.chunk.js.map": "/reactwarriors-movie-app/static/js/2.c824f99f.chunk.js.map",
+    "static/css/2.ce30c31d.chunk.css": "/reactwarriors-movie-app/static/css/2.ce30c31d.chunk.css",
+    "static/js/2.1cc904e4.chunk.js": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js",
+    "static/js/2.1cc904e4.chunk.js.map": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js.map",
     "index.html": "/reactwarriors-movie-app/index.html",
-    "precache-manifest.eb2fc2255e2832abbd0b9b7ce18f9eec.js": "/reactwarriors-movie-app/precache-manifest.eb2fc2255e2832abbd0b9b7ce18f9eec.js",
+    "precache-manifest.5382b78d08dabdc20705a5c4b913855e.js": "/reactwarriors-movie-app/precache-manifest.5382b78d08dabdc20705a5c4b913855e.js",
     "service-worker.js": "/reactwarriors-movie-app/service-worker.js",
-    "static/css/2.f93178fb.chunk.css.map": "/reactwarriors-movie-app/static/css/2.f93178fb.chunk.css.map",
-    "static/css/main.3b8de985.chunk.css.map": "/reactwarriors-movie-app/static/css/main.3b8de985.chunk.css.map",
-    "static/js/2.c824f99f.chunk.js.LICENSE.txt": "/reactwarriors-movie-app/static/js/2.c824f99f.chunk.js.LICENSE.txt"
+    "static/css/2.ce30c31d.chunk.css.map": "/reactwarriors-movie-app/static/css/2.ce30c31d.chunk.css.map",
+    "static/css/main.dae2e4fe.chunk.css.map": "/reactwarriors-movie-app/static/css/main.dae2e4fe.chunk.css.map",
+    "static/js/2.1cc904e4.chunk.js.LICENSE.txt": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js.LICENSE.txt",
+    "static/media/default-image.png": "/reactwarriors-movie-app/static/media/default-image.11075626.png"
   },
   "entrypoints": [
     "static/js/runtime-main.535f6361.js",
-    "static/css/2.f93178fb.chunk.css",
-    "static/js/2.c824f99f.chunk.js",
-    "static/css/main.3b8de985.chunk.css",
-    "static/js/main.105d3f56.chunk.js"
+    "static/css/2.ce30c31d.chunk.css",
+    "static/js/2.1cc904e4.chunk.js",
+    "static/css/main.dae2e4fe.chunk.css",
+    "static/js/main.b8d49fd4.chunk.js"
   ]
 }

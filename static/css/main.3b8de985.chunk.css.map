@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.scss"],"names":[],"mappings":"AAEA,KACE,kBAAmB,CACpB,kBAEC,aAAc,CACf,cAGC,oBAVa","file":"main.3b8de985.chunk.css","sourcesContent":["$error: #dc3545;\n\nbody {\n  background: #fdfdfd;\n}\n.invalid-feedback {\n  display: block;\n}\n\ninput.invalid {\n  border-color: $error;\n}\n"]}

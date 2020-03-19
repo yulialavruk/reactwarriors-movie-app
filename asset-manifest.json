@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/reactwarriors-movie-app/static/css/main.dae2e4fe.chunk.css",
+    "main.css": "/reactwarriors-movie-app/static/css/main.a2ced977.chunk.css",
     "main.js": "/reactwarriors-movie-app/static/js/main.b8d49fd4.chunk.js",
     "main.js.map": "/reactwarriors-movie-app/static/js/main.b8d49fd4.chunk.js.map",
     "runtime-main.js": "/reactwarriors-movie-app/static/js/runtime-main.535f6361.js",
@@ -9,10 +9,10 @@
     "static/js/2.1cc904e4.chunk.js": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js",
     "static/js/2.1cc904e4.chunk.js.map": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js.map",
     "index.html": "/reactwarriors-movie-app/index.html",
-    "precache-manifest.5382b78d08dabdc20705a5c4b913855e.js": "/reactwarriors-movie-app/precache-manifest.5382b78d08dabdc20705a5c4b913855e.js",
+    "precache-manifest.fac7ce8e9a335ce57ce1e32705efd87f.js": "/reactwarriors-movie-app/precache-manifest.fac7ce8e9a335ce57ce1e32705efd87f.js",
     "service-worker.js": "/reactwarriors-movie-app/service-worker.js",
     "static/css/2.ce30c31d.chunk.css.map": "/reactwarriors-movie-app/static/css/2.ce30c31d.chunk.css.map",
-    "static/css/main.dae2e4fe.chunk.css.map": "/reactwarriors-movie-app/static/css/main.dae2e4fe.chunk.css.map",
+    "static/css/main.a2ced977.chunk.css.map": "/reactwarriors-movie-app/static/css/main.a2ced977.chunk.css.map",
     "static/js/2.1cc904e4.chunk.js.LICENSE.txt": "/reactwarriors-movie-app/static/js/2.1cc904e4.chunk.js.LICENSE.txt",
     "static/media/default-image.png": "/reactwarriors-movie-app/static/media/default-image.11075626.png"
   },
@@ -20,7 +20,7 @@
     "static/js/runtime-main.535f6361.js",
     "static/css/2.ce30c31d.chunk.css",
     "static/js/2.1cc904e4.chunk.js",
-    "static/css/main.dae2e4fe.chunk.css",
+    "static/css/main.a2ced977.chunk.css",
     "static/js/main.b8d49fd4.chunk.js"
   ]
 }
